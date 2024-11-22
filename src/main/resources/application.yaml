@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: supercv
+  lifecycle:
+    timeout-per-shutdown-phase: "20s"
+  profiles:
+    active: dev
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+
+server:
+  port: 8088
+  shutdown: "graceful"
+  tomcat:
+    basedir: ./logs
+    accesslog:
+      enabled: true
+      directory: tomcat
+      pattern: '%{YYYY-MM-dd HH:mm:ss.SSS}t %m %U%q {%{post_data}r} %s %T'
+      prefix: access
+      suffix: .log
+      rename-on-rotate: true
+
+logging:
+  config: classpath:logback.xml

@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: set_by_evn_variable
+    username: set_by_evn_variable
+    password: set_by_evn_variable

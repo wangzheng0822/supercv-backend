@@ -1,0 +1,52 @@
+plugins {
+    id 'org.springframework.boot' version '3.0.0' apply false
+    id 'io.spring.dependency-management' version '1.1.0' apply false
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+dependencies {
+    implementation project(':user')
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    group = 'com.zhengxian'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '17'
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        // Spring boot web starter including logback slf4j...
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+
+        // MySQL
+        implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.0'
+        runtimeOnly 'com.mysql:mysql-connector-j'
+
+        // Lombok
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+
+        // Testing
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+}
