@@ -1,6 +1,8 @@
 plugins {
     id 'org.springframework.boot' version '3.0.0' apply false
     id 'io.spring.dependency-management' version '1.1.0' apply false
+    id 'jacoco'
+    id 'jacoco-report-aggregation'
 }
 
 apply plugin: 'java'
@@ -48,5 +50,21 @@ allprojects {
 
     tasks.named('test') {
         useJUnitPlatform()
+        finalizedBy jacocoTestReport // report is always generated after tests run
     }
+
+    jacocoTestReport {
+        dependsOn test
+        reports {
+            xml.required = false
+            csv.required = false
+            html
+        }
+    }
+}
+
+// 输出结果在 build/reports/jacoco/testCodeCoverageReport/html/index.html
+tasks.named('check') {
+    // make JaCoCo aggregate report generation part of the 'check' lifecycle phase
+    dependsOn tasks.named('testCodeCoverageReport', JacocoReport)
 }
