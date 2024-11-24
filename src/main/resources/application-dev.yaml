@@ -4,3 +4,28 @@ spring:
     url: jdbc:mysql://localhost:3306/supercv_db_test?serverTimezone=Asia/Shanghai&useUnicode=true
     username: test
     password: test_123
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 初始连接数
+      initialSize: 2
+      # 最小连接池数量
+      minIdle: 3
+      # 最大连接池数量
+      maxActive: 10
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置连接超时时间
+      connectTimeout: 30000
+      # 配置网络超时时间
+      socketTimeout: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT version()
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
