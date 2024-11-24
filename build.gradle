@@ -44,6 +44,9 @@ allprojects {
         // Testing
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+        // Druid
+        implementation 'com.alibaba:druid-spring-boot-starter:1.2.16'
     }
 
     tasks.named('test') {
