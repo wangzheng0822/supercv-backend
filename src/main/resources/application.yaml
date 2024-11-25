@@ -25,4 +25,4 @@ server:
       rename-on-rotate: true
 
 logging:
-  config: classpath:logback.xml
+  config: classpath:logback-spring.xml
