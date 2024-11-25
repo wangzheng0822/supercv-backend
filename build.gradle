@@ -48,7 +48,10 @@ allprojects {
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
         // Druid
-        implementation 'com.alibaba:druid-spring-boot-starter:1.2.16'
+        implementation 'com.alibaba:druid-spring-boot-3-starter:1.2.23'
+
+        // commons-lang3, include StringUtils
+        implementation 'org.apache.commons:commons-lang3:3.12.0'
     }
 
     tasks.named('test') {
