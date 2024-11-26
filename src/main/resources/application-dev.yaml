@@ -30,16 +30,11 @@ spring:
       testOnBorrow: false
       testOnReturn: false
 
+# 地址: /swagger-ui/index.html
 springdoc:
   swagger-ui:
     display-request-duration: true
-    groups-order: DESC
+    groups-order: ASC
     operationsSorter: method
-    disable-swagger-default-url: true
-    use-root-path: true
-    path: /doc.html
-  group-configs:
-    - group: oktest
-      paths-to-match: /**/oktest/**
   cache:
     disabled: true

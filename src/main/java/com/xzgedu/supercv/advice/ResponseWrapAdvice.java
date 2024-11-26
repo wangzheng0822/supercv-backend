@@ -35,7 +35,9 @@ public class ResponseWrapAdvice implements ResponseBodyAdvice<Object> {
                                   ServerHttpRequest request, ServerHttpResponse response) {
         ResponseData data;
         if (body instanceof String) {
-            data = ResponseData.create(ErrorCode.SUCCESS).data(body);
+             data = ResponseData.create(ErrorCode.SUCCESS).data(body);
+             logResponseData(data);
+             return objectMapper.writeValueAsString(data);
         } else if (body instanceof ResponseData) {
             data = (ResponseData) body;
         } else {

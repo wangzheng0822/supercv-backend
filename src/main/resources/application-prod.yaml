@@ -29,3 +29,9 @@ spring:
       testWhileIdle: true
       testOnBorrow: false
       testOnReturn: false
+
+springdoc:
+  swagger-ui:
+    enabled: false
+  api-docs:
+    enabled: false
