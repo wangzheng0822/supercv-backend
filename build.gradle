@@ -53,6 +53,9 @@ allprojects {
 
         // commons-lang3, include StringUtils
         implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+        // Api Doc
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
     }
 
     tasks.named('test') {
