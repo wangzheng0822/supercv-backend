@@ -1,5 +1,6 @@
 package com.xzgedu.supercv.user.controller;
 
+import com.xzgedu.supercv.common.exception.SmsCodeUnmatchedException;
 import com.xzgedu.supercv.user.domain.OkTest;
 import com.xzgedu.supercv.user.service.OkTestService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,16 @@ public class OkTestController {
     public String ping() {
         log.info("ping...");
         return "pong";
+    }
+
+    @GetMapping("/exception/business")
+    public void testException() throws SmsCodeUnmatchedException {
+        throw new SmsCodeUnmatchedException("Here is exception detail");
+    }
+
+    @GetMapping("/exception/internal_server")
+    public void testInternalServerException() {
+        throw new RuntimeException("Here is internal server error");
     }
 
     @GetMapping("/select")
