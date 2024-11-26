@@ -1,5 +1,6 @@
 package com.xzgedu.supercv.user.controller;
 
+import com.xzgedu.supercv.common.exception.SmsCodeUnmatchedException;
 import com.xzgedu.supercv.user.domain.OkTest;
 import com.xzgedu.supercv.user.service.OkTestService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,6 +26,16 @@ public class OkTestController {
         return "pong";
     }
 
+    @GetMapping("/exception/business")
+    public void testException() throws SmsCodeUnmatchedException {
+        throw new SmsCodeUnmatchedException("Here is exception detail");
+    }
+
+    @GetMapping("/exception/internal_server")
+    public void testInternalServerException() {
+        throw new RuntimeException("Here is internal server error");
+    }
+
     @Operation(summary = "Fetch OkTest by ID", description = "Retrieve a record from the database by its ID.")
     @GetMapping("/select")
     public OkTest selectOkTest(
@@ -33,7 +44,6 @@ public class OkTestController {
     }
 
     @Operation(summary = "Insert a new record", description = "Add a new record to the database with the provided name.")
-
     @PostMapping("/insert")
     public boolean insertOkTest(
             @Parameter(description = "Name of the record to insert", required = true) @RequestParam("name") String name) {

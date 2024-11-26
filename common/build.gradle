@@ -7,5 +7,4 @@ jar {
 }
 
 dependencies {
-    implementation project(':common')
 }
