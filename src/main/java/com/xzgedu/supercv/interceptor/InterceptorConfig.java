@@ -18,6 +18,12 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Autowired
     private IdentifierInterceptor identifierInterceptor;
 
+    @Autowired
+    private AdminPassInterceptor adminPassInterceptor;
+
+    @Autowired
+    private AdminInterceptor adminInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
@@ -32,5 +38,16 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .addPathPatterns("/v1/**", "/admin/**")
                 .excludePathPatterns("/v1/login/**")
                 .order(2);
+
+        //管理员接口访问权限控制
+        registry.addInterceptor(adminInterceptor)
+                .addPathPatterns("/admin/**")
+                .excludePathPatterns("/admin/account/check")
+                .order(3);
+
+        //管理员可以访问所有接口
+        registry.addInterceptor(adminPassInterceptor)
+                .addPathPatterns("/v1/**")
+                .order(4);
     }
 }
