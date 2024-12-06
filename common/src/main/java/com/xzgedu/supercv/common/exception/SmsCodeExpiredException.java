@@ -1,6 +1,10 @@
 package com.xzgedu.supercv.common.exception;
 
-public class SmsCodeExpiredException extends BusinessException {
+/**
+ * 短信验证码过期异常
+ * @author wangzheng
+ */
+public class SmsCodeExpiredException extends BizException {
 
     public SmsCodeExpiredException() {
         super(ErrorCode.SMS_CODE_EXPIRED);

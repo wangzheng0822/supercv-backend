@@ -4,6 +4,7 @@ import java.lang.annotation.*;
 
 /**
  * 标记Domain中的非数据库字段
+ * @author wangzheng
  */
 @Documented
 @Target(ElementType.FIELD)

@@ -1,6 +1,10 @@
 package com.xzgedu.supercv.common.exception;
 
-public class RequestTooFrequentException extends BusinessException {
+/**
+ * 请求过于频繁异常
+ * @author wangzheng
+ */
+public class RequestTooFrequentException extends BizException {
     public RequestTooFrequentException() {
         super(ErrorCode.TOO_FREQUENT_REQUEST);
     }

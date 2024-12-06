@@ -2,6 +2,7 @@ package com.xzgedu.supercv.common.exception;
 
 /**
  * 5位错误码，格式为：[1位表示错误类型]+[2位表示业务]+[2位表示具体异常]
+ * @author wangzheng
  */
 public enum ErrorCode {
     /**
@@ -17,6 +18,7 @@ public enum ErrorCode {
     PHONE_VERIFY_FAILED(30102, "没有绑定手机号码"),
     NO_PERMISSION(30103, "没有权限"),
     TOO_FREQUENT_REQUEST(30104, "请求过于频繁"),
+    DENY_FOR_PROD(30105, "生产环境禁止使用此功能"),
 
     // 用户信息
     NICKNAME_INVALID(30201, "昵称不符合要求(长度限于1个字~10个字)"),
@@ -28,9 +30,15 @@ public enum ErrorCode {
     SMS_CODE_UNMATCHED(30302, "验证码错误"),
     SMS_CODE_EXPIRED(30304, "验证码过期"),
 
+    // 输入数据验证
+    GENERIC_DATA_INVALID(30401, "数据错误"),
+    DATA_SHOULD_NOT_EMPTY(30402, "数据不应为空"),
+
     /**
      * ******** 4xxxx不应该出现的业务异常 ***********
      */
+    GENERIC_BIZ_FAILED(40000, "操作失败"),
+
     // 用户信息
     USER_NOT_EXISTED(40101, "用户不存在"),
 
@@ -58,8 +66,8 @@ public enum ErrorCode {
     ERROR_404(404, "接口不存在，请仔细检查url"),
     ERROR_405(405, "未正确指定HTTP Method (GET or POST)");
 
-    private int code;
-    private String msg;
+    private final int code;
+    private final String msg;
 
     ErrorCode(int code, String msg) {
         this.code = code;

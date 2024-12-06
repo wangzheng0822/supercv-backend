@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/supercv_db_test?serverTimezone=Asia/Shanghai&useUnicode=true
-    username: test
-    password: test_123
+    url: jdbc:mysql://localhost:3306/supercv_db_dev?serverTimezone=Asia/Shanghai&useUnicode=true
+    username: username_dev
+    password: password_dev
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       # 初始连接数
@@ -32,9 +32,31 @@ spring:
 
 # 地址: /swagger-ui/index.html
 springdoc:
+  api-docs:
+    enabled: false
   swagger-ui:
     display-request-duration: true
     groups-order: ASC
     operationsSorter: method
   cache:
     disabled: true
+
+wxOpen:
+  appID: [set_by_yourself]
+  appSecret: set_by_yourself
+
+aliyun:
+  accessKeyId: set_by_yourself
+  accessKeySecret: set_by_yourself
+
+sms:
+  sign_name: set_by_yourself
+  template_code: set_by_yourself
+
+tencent:
+  secretId: set_by_yourself
+  secretKey: set_by_yourself
+
+captcha:
+  captchaAppId: set_by_yourself
+  appSecretKey: set_by_yourself

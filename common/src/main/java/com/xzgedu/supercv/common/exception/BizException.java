@@ -1,25 +1,28 @@
 package com.xzgedu.supercv.common.exception;
 
-
-public abstract class BusinessException extends Exception {
+/**
+ * 业务异常父类
+ * @author wangzheng
+ */
+public class BizException extends Exception {
     public ErrorCode ERROR_CODE;
 
-    public BusinessException(ErrorCode errorCode) {
+    public BizException(ErrorCode errorCode) {
         super();
         this.ERROR_CODE = errorCode;
     }
 
-    public BusinessException(Exception e, ErrorCode errorCode) {
+    public BizException(Exception e, ErrorCode errorCode) {
         super(e);
         this.ERROR_CODE = errorCode;
     }
 
-    public BusinessException(String msg, ErrorCode errorCode) {
+    public BizException(String msg, ErrorCode errorCode) {
         super(msg);
         this.ERROR_CODE = errorCode;
     }
 
-    public BusinessException(String msg, Exception e, ErrorCode errorCode) {
+    public BizException(String msg, Exception e, ErrorCode errorCode) {
         super(msg, e);
         this.ERROR_CODE = errorCode;
     }

@@ -1,7 +1,8 @@
 package com.xzgedu.supercv.advice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xzgedu.supercv.common.exception.BusinessException;
+import com.xzgedu.supercv.common.exception.BizException;
+import com.xzgedu.supercv.common.exception.DataInvalidException;
 import com.xzgedu.supercv.common.exception.ErrorCode;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+/**
+ * 此切面将controller返回的数据或者异常，包裹成固定的格式ResponseData返回
+ * @author wangzheng
+ */
 @Slf4j
 @RestControllerAdvice(basePackages = "com.xzgedu.supercv")
 public class ResponseWrapAdvice implements ResponseBodyAdvice<Object> {
@@ -58,8 +63,8 @@ public class ResponseWrapAdvice implements ResponseBodyAdvice<Object> {
     }
 
     @ResponseBody
-    @ExceptionHandler(value = {BusinessException.class})
-    public ResponseData handleBusinessException(BusinessException e) {
+    @ExceptionHandler(value = {BizException.class})
+    public ResponseData handleBusinessException(BizException e) {
         log.warn(e.ERROR_CODE + ": " + e.toString()); // 注意：此处不要把exception的stack trace打印出来
         return ResponseData.create(e.ERROR_CODE).data();
     }
@@ -70,5 +75,12 @@ public class ResponseWrapAdvice implements ResponseBodyAdvice<Object> {
     public ResponseData handleSystemException(Exception e) {
         log.error("Internal server error", e);
         return ResponseData.create(ErrorCode.INTERNAL_SERVER_ERROR).data();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = {DataInvalidException.class})
+    public ResponseData handleDataInvalidException(DataInvalidException e) {
+        log.warn(e.toString());
+        return ResponseData.create(e.ERROR_CODE).data();
     }
 }

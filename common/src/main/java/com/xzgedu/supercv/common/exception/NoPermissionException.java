@@ -1,6 +1,10 @@
 package com.xzgedu.supercv.common.exception;
 
-public class NoPermissionException extends BusinessException {
+/**
+ * 没有权限异常
+ * @author wangzheng
+ */
+public class NoPermissionException extends BizException {
     public NoPermissionException() {
         super(ErrorCode.NO_PERMISSION);
     }

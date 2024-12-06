@@ -1,6 +1,10 @@
 package com.xzgedu.supercv.common.exception;
 
-public class SmsCodeUnmatchedException extends BusinessException {
+/**
+ * 短信验证码不匹配异常
+ * @author wangzheng
+ */
+public class SmsCodeUnmatchedException extends BizException {
 
     public SmsCodeUnmatchedException() {
         super(ErrorCode.SMS_CODE_UNMATCHED);

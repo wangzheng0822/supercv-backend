@@ -1,6 +1,10 @@
 package com.xzgedu.supercv.common.exception;
 
-public class UserNotFoundException extends BusinessException {
+/**
+ * 用户不存在异常
+ * @author wangzheng
+ */
+public class UserNotFoundException extends BizException {
 
     public UserNotFoundException() {
         super(ErrorCode.USER_NOT_EXISTED);

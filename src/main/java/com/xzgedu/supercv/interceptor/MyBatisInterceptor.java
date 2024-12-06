@@ -18,6 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * 慢SQL日志记录
+ * @author wangzheng
+ */
 @Slf4j
 @Component
 @Intercepts(value = {

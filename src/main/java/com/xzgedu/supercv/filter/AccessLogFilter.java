@@ -9,6 +9,10 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * 请求访问日志记录拦截器
+ * @author wangzheng
+ */
 @Slf4j
 public class AccessLogFilter implements Filter {
     @Override

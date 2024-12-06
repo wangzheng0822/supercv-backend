@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 允许跨域访问的URLs:
+ * 跨域设置，允许跨域访问的URLs:
  * https://www.supercv.cn，http://www.supercv.cn，http://127.0.0.1:*，http://localhost:*
  */
 @Slf4j

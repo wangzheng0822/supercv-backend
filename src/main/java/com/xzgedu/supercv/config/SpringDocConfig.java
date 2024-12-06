@@ -6,14 +6,13 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.models.GroupedOpenApi;
-import org.springdoc.webmvc.api.OpenApiResource;
-import org.springdoc.webmvc.ui.SwaggerConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
-import java.util.List;
-
+/**
+ * 接口文档，访问地址：http://localhost:8088/swagger-ui/index.html
+ * @author wangzheng
+ */
 @Configuration
 public class SpringDocConfig {
     @Bean
@@ -26,7 +25,7 @@ public class SpringDocConfig {
         Info info = new Info().title("SuperCV API").version("v1").description(
                 "<br>1. 页面右上角可以选择不同的接口分组（Select a definition）: [user...]" +
                         "<br><br>2. 所有POST请求的参数都应放到Body中，并且Content-Type设置为application/x-www-form-urlencoded" +
-                        "<br><br>3. 测试需要登陆之后才能访问的接口，请在页面右上角的[Authorize]处绑定token(注意：不需要填写\"Bearer\")");
+                        "<br><br>3. 测试需要登陆之后才能访问的接口，请在页面右上角的[Authorize]处绑定token");
 
         return new OpenAPI()
                 .components(components)
@@ -35,18 +34,34 @@ public class SpringDocConfig {
     }
 
     @Bean
-    public GroupedOpenApi okTestApi() {
+    public GroupedOpenApi userApi() {
         return GroupedOpenApi.builder()
-                .group("oktest")
-                .pathsToMatch("/v1/oktest/**")
+                .group("User")
+                .pathsToMatch("/v1/user/**")
                 .build();
     }
 
     @Bean
-    public GroupedOpenApi userApi() {
+    public GroupedOpenApi loginApi() {
         return GroupedOpenApi.builder()
-                .group("user")
-                .pathsToMatch("/v1/user/**")
+                .group("Login")
+                .pathsToMatch("/v1/login/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi smsCodeApi() {
+        return GroupedOpenApi.builder()
+                .group("SmsCode")
+                .pathsToMatch("/v1/smscode/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi adminApi() {
+        return GroupedOpenApi.builder()
+                .group("Admin")
+                .pathsToMatch("/admin/**")
                 .build();
     }
 }

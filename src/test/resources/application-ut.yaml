@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  sql:
+    init:
+      schema-locations: classpath:supercv.sql
+      mode: always
+
+wxOpen:
+  appID: no_need_to_set
+  appSecret: no_need_to_set
+
+aliyun:
+  accessKeyId: no_need_to_set
+  accessKeySecret: no_need_to_set
+
+sms:
+  sign_name: no_need_to_set
+  template_code: no_need_to_set
+
+tencent:
+  secretId: no_need_to_set
+  secretKey: no_need_to_set
+
+captcha:
+  captchaAppId: no_need_to_set
+  appSecretKey: no_need_to_set

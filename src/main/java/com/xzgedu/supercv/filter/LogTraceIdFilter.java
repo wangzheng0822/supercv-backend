@@ -7,6 +7,10 @@ import org.slf4j.MDC;
 import java.io.IOException;
 import java.util.UUID;
 
+/**
+ * 请求的调用链追踪
+ * @author wangzheng
+ */
 @Slf4j
 public class LogTraceIdFilter implements Filter {
     @Override
@@ -15,5 +19,4 @@ public class LogTraceIdFilter implements Filter {
         MDC.put("trace_id", UUID.randomUUID().toString());
         chain.doFilter(request, response);
     }
-
 }
