@@ -27,9 +27,7 @@ public class SmsService {
 
     public void sendSmsCode(String telephone, String ticket, String randStr, String userIp)
             throws SendSmsCodeFailedException, RequestTooFrequentException, NoPermissionException {
-        log.info("" + captcha.verifyTicket(ticket, randStr, userIp));
         if (!captcha.verifyTicket(ticket, randStr, userIp)) {
-            log.info("奇了怪了");
             throw new NoPermissionException("Failed to verify captcha: [ticket=" + ticket +
                     ", randStr=" + randStr + ", userIp=" + userIp);
         }
