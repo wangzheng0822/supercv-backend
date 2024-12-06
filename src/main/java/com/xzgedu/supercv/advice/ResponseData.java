@@ -3,11 +3,17 @@ package com.xzgedu.supercv.advice;
 import com.xzgedu.supercv.common.exception.ErrorCode;
 import lombok.Data;
 
+/**
+ * 请求返回响应数据
+ * @author wangzheng
+ */
 @Data
 public class ResponseData<T> {
     private int code;
     private String msg;
     private T data;
+
+    public ResponseData() {}
 
     public ResponseData(int code, String msg) {
         this.code = code;

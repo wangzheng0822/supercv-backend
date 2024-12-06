@@ -18,6 +18,10 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+/**
+ * 处理SpringBoot抛出的异常
+ * @author wangzheng
+ */
 @Slf4j
 @RestControllerAdvice
 public class ErrorUrlAdvice implements ResponseBodyAdvice<Object> {

@@ -2,8 +2,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: set_by_evn_variable
-    username: set_by_evn_variable
-    password: set_by_evn_variable
+    username: set_by_env_variable
+    password: set_by_env_variable
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       # 初始连接数
@@ -35,3 +35,23 @@ springdoc:
     enabled: false
   api-docs:
     enabled: false
+
+wxOpen:
+  appID: set_by_env_variable
+  appSecret: set_by_env_variable
+
+aliyun:
+  accessKeyId: set_by_env_variable
+  accessKeySecret: set_by_env_variable
+
+sms:
+  sign_name: set_by_env_variable
+  template_code: set_by_env_variable
+
+tencent:
+  secretId: set_by_env_variable
+  secretKey: set_by_env_variable
+
+captcha:
+  captchaAppId: set_by_env_variable
+  appSecretKey: set_by_env_variable

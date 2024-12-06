@@ -1,6 +1,10 @@
 package com.xzgedu.supercv.common.exception;
 
-public class FetchWxUserInfoFailedException extends BusinessException {
+/**
+ * 微信登陆失败异常
+ * @author wangzheng
+ */
+public class FetchWxUserInfoFailedException extends BizException {
     public FetchWxUserInfoFailedException() {
         super(ErrorCode.FETCH_WX_USER_INFO_FAILED);
     }

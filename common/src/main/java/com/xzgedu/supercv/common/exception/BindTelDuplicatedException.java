@@ -1,6 +1,10 @@
 package com.xzgedu.supercv.common.exception;
 
-public class BindTelDuplicatedException extends BusinessException {
+/**
+ * 重复绑定同一手机号码异常
+ * @author wangzheng
+ */
+public class BindTelDuplicatedException extends BizException {
 
     public BindTelDuplicatedException() {
         super(ErrorCode.BIND_TEL_DUPLICATED);
