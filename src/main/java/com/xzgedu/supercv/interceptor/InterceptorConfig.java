@@ -24,6 +24,9 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Autowired
     private AdminInterceptor adminInterceptor;
 
+    @Autowired
+    ResumeOwnershipInterceptor resumeOwnershipInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
@@ -31,6 +34,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(authTokenInterceptor)
                 .addPathPatterns("/v1/**", "/admin/**")
                 .excludePathPatterns("/v1/login/**")
+                .excludePathPatterns("/v1/resume/template/list")
+                .excludePathPatterns("/v1/resume/template/list/mock")
                 .order(1);
 
         //非管理员用户只能操作自己的数据，参数uid要跟header中uid相同
@@ -49,5 +54,15 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(adminPassInterceptor)
                 .addPathPatterns("/v1/**")
                 .order(4);
+
+        //简历归属权检查
+        registry.addInterceptor(resumeOwnershipInterceptor)
+                .addPathPatterns("/v1/resume/detail")
+                .addPathPatterns("/v1/resume/update")
+                .addPathPatterns("/v1/resume/delete")
+                .addPathPatterns("/v1/resume/copy")
+                .addPathPatterns("/v1/resume/baseinfo/**")
+                .addPathPatterns("/v1/resume/module/**")
+                .order(5);
     }
 }

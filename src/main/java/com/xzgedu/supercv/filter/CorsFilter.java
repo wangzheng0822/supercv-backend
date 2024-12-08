@@ -4,6 +4,8 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,9 +18,13 @@ import java.util.Set;
  * https://www.supercv.cn，http://www.supercv.cn，http://127.0.0.1:*，http://localhost:*
  */
 @Slf4j
+@Component
 public class CorsFilter implements Filter {
 
     private static final List<String> ALLOWED_ORIGINS = new ArrayList<>();
+
+    @Value("${spring.profiles.active}")
+    private String active;
 
     static {
         ALLOWED_ORIGINS.add("https://www.supercv.cn");
@@ -28,7 +34,12 @@ public class CorsFilter implements Filter {
     }
 
     private boolean checkIfAllowedOrigin(String origin) {
-        for (String allowedOrigin: ALLOWED_ORIGINS) {
+        if (this.active.equals("dev") || this.active.equals("test") || this.active.equals("ut")) {
+            return true;
+        }
+
+        if (origin == null) return false;
+        for (String allowedOrigin : ALLOWED_ORIGINS) {
             if (origin.startsWith(allowedOrigin)) {
                 return true;
             }
@@ -44,13 +55,7 @@ public class CorsFilter implements Filter {
 
         // Check the origin of the request
         String origin = req.getHeader("Origin");
-        boolean allowedOrigin = false;
-        if (origin != null) {
-            // Allow specific origins
-            if (checkIfAllowedOrigin(origin)) {
-                allowedOrigin = true;
-            }
-        }
+        boolean allowedOrigin = checkIfAllowedOrigin(origin);
 
         if (allowedOrigin) {
             // Set CORS headers
