@@ -11,9 +11,6 @@ import java.util.Date;
  */
 @Data
 public class SmsCode {
-    @JsonIgnore
-    private long id;
-
     private String telephone;
     private String code;
     private boolean used;

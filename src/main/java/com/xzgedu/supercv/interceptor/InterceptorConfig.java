@@ -27,6 +27,9 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Autowired
     ResumeOwnershipInterceptor resumeOwnershipInterceptor;
 
+    @Autowired
+    VipBenefitInterceptor vipBenefitInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
@@ -64,5 +67,15 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .addPathPatterns("/v1/resume/baseinfo/**")
                 .addPathPatterns("/v1/resume/module/**")
                 .order(5);
+
+        //仅VIP可操作的接口
+        registry.addInterceptor(vipBenefitInterceptor)
+                .addPathPatterns("/v1/resume/create")
+                .addPathPatterns("/v1/resume/create-from-file")
+                .addPathPatterns("/v1/resume/copy")
+                .addPathPatterns("/v1/resume/update")
+                .addPathPatterns("/v1/resume/baseinfo/**")
+                .addPathPatterns("/v1/resume/module/**")
+                .order(6);
     }
 }

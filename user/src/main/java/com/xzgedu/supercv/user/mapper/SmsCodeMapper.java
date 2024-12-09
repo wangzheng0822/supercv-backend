@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.*;
 public interface SmsCodeMapper {
 
     @Results(id = "SmsCode", value = {
-            @Result(property = "id", column = "id"),
             @Result(property = "telephone", column = "telephone"),
             @Result(property = "code", column = "code"),
             @Result(property = "sendTime", column = "send_time"),
@@ -16,7 +15,6 @@ public interface SmsCodeMapper {
     @Select("select * from sms_code where telephone=#{telephone}")
     SmsCode selectSmsCodeByTelephone(@Param("telephone") String telephone);
 
-    @Options(useGeneratedKeys = true, keyProperty = "id")
     @Insert("insert into sms_code(telephone, code, send_time, is_used)" +
             " values(#{telephone}, #{code}, #{sendTime}, #{used})")
     int insertSmsCode(SmsCode smsCode);

@@ -11,9 +11,6 @@ import java.util.Date;
  */
 @Data
 public class AuthToken {
-    @JsonIgnore
-    private long id;
-
     private String token;
     private long uid;
     private Date expireTime;
