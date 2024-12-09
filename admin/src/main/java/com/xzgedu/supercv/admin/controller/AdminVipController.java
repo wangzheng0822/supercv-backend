@@ -4,6 +4,8 @@ import com.xzgedu.supercv.user.domain.User;
 import com.xzgedu.supercv.user.service.UserService;
 import com.xzgedu.supercv.vip.domain.Vip;
 import com.xzgedu.supercv.vip.service.VipService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Tag(name="会员管理")
 @RequestMapping("/admin/vip")
 @RestController
 public class AdminVipController {
@@ -26,6 +29,7 @@ public class AdminVipController {
     private VipService vipService;
 
     //list or search 会员
+    @Operation(summary = "分页查询会员")
     @GetMapping("/list")
     public Map<String, Object> getVipUsers(@RequestParam(value = "telephone", required = false) String telephone,
                                            @RequestParam(value = "page_no") Integer pageNo,
