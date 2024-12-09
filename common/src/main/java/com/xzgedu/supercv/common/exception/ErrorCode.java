@@ -49,6 +49,10 @@ public enum ErrorCode {
     // 短信验证
     SMS_CODE_SEND_FAILED(40301, "验证码发送失败"),
 
+    //简历
+    RESUME_TEMPLATE_NOT_EXISTED(40401, "简历模板不存在"),
+    RESUME_NOT_EXISTED(40402, "简历不存在"),
+
     /**
      * ******** 5xxxx系统级别异常 ***************
      */
