@@ -21,7 +21,7 @@ public class ResumeBaseInfoController {
     private ResumeBaseInfoItemService resumeBaseInfoItemService;
 
     @Operation(summary = "更新基本信息")
-    @PutMapping("/update")
+    @PostMapping("/update")
     public boolean updateBaseInfo(@RequestHeader("uid") long uid,
                                   @RequestParam("resume_id") long resumeId,
                                   @RequestParam(value = "head_img_url") String headImgUrl,
@@ -56,7 +56,7 @@ public class ResumeBaseInfoController {
     }
 
     @Operation(summary = "更新基本信息项")
-    @PutMapping("/item/update")
+    @PostMapping("/item/update")
     public boolean updateBaseInfoItem(@RequestHeader("uid") long uid,
                                       @RequestParam("resume_id") long resumeId,
                                       @RequestParam("baseinfo_id") long baseInfoId,
@@ -74,7 +74,7 @@ public class ResumeBaseInfoController {
     }
 
     @Operation(summary = "删除基本信息项")
-    @DeleteMapping("/item/delete")
+    @PostMapping("/item/delete")
     public boolean deleteBaseInfoItem(@RequestHeader("uid") long uid,
                                       @RequestParam("resume_id") long resumeId,
                                       @RequestParam("item_id") long itemId) {

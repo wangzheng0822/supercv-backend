@@ -39,7 +39,7 @@ public class ResumeModuleController {
     }
 
     @Operation(summary = "更新模块")
-    @PutMapping("/update")
+    @PostMapping("/update")
     public boolean updateModule(@RequestHeader("uid") long uid,
                                 @RequestParam("resume_id") long resumeId,
                                 @RequestParam("module_id") long moduleId,
@@ -58,7 +58,7 @@ public class ResumeModuleController {
     }
 
     @Operation(summary = "删除模块")
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public boolean deleteModule(@RequestHeader("uid") long uid,
                                 @RequestParam("resume_id") long resumeId,
                                 @RequestParam("module_id") long moduleId) {
@@ -95,7 +95,7 @@ public class ResumeModuleController {
     }
 
     @Operation(summary = "更新子模块")
-    @PutMapping("/item/update")
+    @PostMapping("/item/update")
     public boolean updateModuleItem(@RequestHeader("uid") long uid,
                                     @RequestParam("resume_id") long resumeId,
                                     @RequestParam("module_item_id") long moduleItemId,
@@ -124,7 +124,7 @@ public class ResumeModuleController {
     }
 
     @Operation(summary = "删除子模块")
-    @DeleteMapping("/item/delete")
+    @PostMapping("/item/delete")
     public boolean deleteModuleItem(@RequestHeader("uid") long uid,
                                     @RequestParam("resume_id") long resumeId,
                                     @RequestParam("module_item_id") long moduleItemId) {

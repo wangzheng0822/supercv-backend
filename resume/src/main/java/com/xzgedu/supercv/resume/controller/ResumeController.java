@@ -39,7 +39,7 @@ public class ResumeController {
     }
 
     @Operation(summary = "改变简历标题、模板、主题颜色、间距等等")
-    @PutMapping("/update")
+    @PostMapping("/update")
     public boolean updateResume(@RequestHeader("uid") long uid,
                                 @RequestParam("resume_id") long resumeId,
                                 @RequestParam("name") String name,
