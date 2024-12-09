@@ -37,9 +37,22 @@ create table if not exists `sms_code` (
 );
 
 -- 管理员账号
-CREATE TABLE IF NOT EXISTS `admin` (
+create table if not exists `admin` (
     `uid` bigint NOT NULL,
     primary key (`uid`)
+);
+
+-- 会员权益
+create table if not exists `vip` (
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+    `uid` bigint NOT NULL,
+    `expire_time` datetime NOT NULL COMMENT '过期时间',
+    `ai_analysis_left_num` int NOT NULL COMMENT 'AI分析剩余次数',
+    `ai_optimization_left_num` int NOT NULL COMMENT 'AI优化剩余次数',
+    `create_time` datetime NOT NULL DEFAULT current_timestamp COMMENT '创建时间',
+    `update_time` datetime NOT NULL DEFAULT current_timestamp on update current_timestamp COMMENT '更新时间',
+    primary key (`id`),
+    unique (`uid`)
 );
 
 -- 简历模板

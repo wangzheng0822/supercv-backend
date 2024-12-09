@@ -3,3 +3,5 @@ include 'user'
 include 'common'
 include 'admin'
 include 'resume'
+include 'vip'
+

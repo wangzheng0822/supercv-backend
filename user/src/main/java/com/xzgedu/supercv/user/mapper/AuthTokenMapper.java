@@ -9,7 +9,6 @@ import java.util.Date;
 public interface AuthTokenMapper {
 
     @Results(id = "AuthToken", value = {
-            @Result(property = "id", column = "id"),
             @Result(property = "token", column = "token"),
             @Result(property = "uid", column = "uid"),
             @Result(property = "expireTime", column = "expire_time")
@@ -17,7 +16,6 @@ public interface AuthTokenMapper {
     @Select("select * from auth_token where token=#{token}")
     AuthToken selectAuthToken(@Param("token") String token);
 
-    @Options(useGeneratedKeys = true, keyProperty = "id")
     @Insert("insert into auth_token(uid, token, expire_time) values(#{uid}, #{token}, #{expireTime})")
     int insertAuthToken(AuthToken authToken);
 

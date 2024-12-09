@@ -14,6 +14,7 @@ dependencies {
     implementation project(':user')
     implementation project(':resume')
     implementation project(':admin')
+    implementation project(':vip')
 }
 
 allprojects {
