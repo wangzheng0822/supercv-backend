@@ -1,14 +1,12 @@
-package com.xzgedu.supercv.vip;
+package com.xzgedu.supercv.product;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xzgedu.supercv.SupercvBackendApplication;
-import com.xzgedu.supercv.UserAccountSetUp;
 import com.xzgedu.supercv.advice.ResponseData;
 import com.xzgedu.supercv.common.exception.ErrorCode;
-import com.xzgedu.supercv.user.domain.AuthToken;
-import com.xzgedu.supercv.vip.domain.Vip;
-import com.xzgedu.supercv.vip.service.VipService;
+import com.xzgedu.supercv.product.domain.Product;
+import com.xzgedu.supercv.product.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +19,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -31,48 +33,49 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // This ensures we use the test datasource
 @Transactional
-public class VipIntegrationTest {
+public class ProductIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private VipService vipService;
-
-    @Autowired
-    private UserAccountSetUp userAccountSetUp;
-
-    private AuthToken authToken;
+    private ProductService productService;
 
     @BeforeEach
-    public void setup() {
-        this.authToken = userAccountSetUp.createRandomUserAndLogin();
+    void setUp() {
+        // 清理或初始化数据
     }
 
     @Test
-    public void getVipInfo_Success() throws Exception {
-        long uid = authToken.getUid();
+    void getProductInfo_Success() throws Exception {
+        Product product = new Product();
+        product.setName("产品1");
+        product.setOriginalPrice(new BigDecimal("9.99"));
+        product.setDiscountPrice(new BigDecimal("8.99"));
+        product.setDurationDays(30);
+        product.setAiAnalysisNum(10);
+        product.setAiOptimizationNum(20);
+        productService.addProduct(product);
 
-        //第一次购买vip
-        vipService.renewVip(uid, 30, 10, 20);
-
-        MvcResult result = mockMvc.perform(get("/v1/vip/info")
-                        .header("uid", String.valueOf(uid))
+        MvcResult result = mockMvc.perform(get("/v1/product/info")
                         .header("Origin", "https://www.supercv.cn")
-                        .header("Authorization", "Bearer " + authToken.getToken())
+                        .param("product_id", String.valueOf(product.getId()))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String content = result.getResponse().getContentAsString();
-        ResponseData<Vip> responseData = new ObjectMapper().readValue(content, new TypeReference<ResponseData<Vip>>() {
-        });
+        String content = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
+        ResponseData<Product> responseData = new ObjectMapper().readValue(
+                content, new TypeReference<ResponseData<Product>>() {});
         assertEquals(ErrorCode.SUCCESS.getCode(), responseData.getCode());
         assertNotNull(responseData.getData());
-        Vip vip = (Vip) responseData.getData();
-        assertEquals(uid, vip.getUid());
-        assertEquals(10, vip.getAiAnalysisLeftNum());
-        assertEquals(20, vip.getAiOptimizationLeftNum());
+        Product resProduct = responseData.getData();
+        assertThat(resProduct).isNotNull();
+        assertEquals(product.getName(), resProduct.getName());
+        assertEquals(product.getOriginalPrice(), resProduct.getOriginalPrice());
+        assertEquals(product.getDiscountPrice(), resProduct.getDiscountPrice());
+        assertEquals(product.getDurationDays(), resProduct.getDurationDays());
+        assertEquals(product.getAiAnalysisNum(), resProduct.getAiAnalysisNum());
+        assertEquals(product.getAiOptimizationNum(), resProduct.getAiOptimizationNum());
     }
-
 }
