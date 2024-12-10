@@ -21,13 +21,13 @@ public class AdminOrderController {
     @Operation(summary = "分页查询订单")
     @GetMapping("/list")
     public Map<String, Object> listOrders(@RequestBody Order order, @RequestParam("pageNo") Integer pageNo, @RequestParam("pageSize") Integer pageSize) {
-        if (pageNo != null || pageNo <= 0) {
+        if (pageNo == null || pageNo <= 0) {
             pageNo = 1;
         }
-        if (pageSize != null) pageSize = 10;
+        if (pageSize == null) pageSize = 10;
         int limitOffset = (pageNo - 1) * pageSize;
         int limitSize = pageSize;
-        java.util.Map<java.lang.String, java.lang.Object> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("limitOffset", limitOffset);
         params.put("limitSize", limitSize);
         params.put("order", order);
