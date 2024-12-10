@@ -34,10 +34,9 @@ public class AdminOrderController {
         List<Order> orders = orderService.listOrdersByCondition(params);
         int count = orderService.countOrderByCondition(params);
 
-        //TODO 填充产品名称
         orders = orderService.batchFillInProductName(orders);
 
-        Map<java.lang.String, java.lang.Object> resp = new HashMap<>();
+        Map<String, Object> resp = new HashMap<>();
         resp.put("count", count);
         resp.put("orders", orders);
 
