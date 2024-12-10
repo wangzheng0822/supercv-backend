@@ -42,6 +42,30 @@ create table if not exists `admin` (
     primary key (`uid`)
 );
 
+-- 订单
+CREATE TABLE if not exists `order` (
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '订单ID',
+    `order_no` varchar(32) NOT NULL COMMENT '订单号',
+    `user_id` bigint NOT NULL COMMENT '用户ID',
+    `product_id` bigint NOT NULL COMMENT '产品ID',
+    `order_time` datetime NOT NULL DEFAULT current_timestamp COMMENT '下单时间',
+    `payment_no_3rd` varchar(64) COMMENT '三方支付订单号（微信支付），用于对账',
+    `payment_channel_type` tinyint COMMENT '支付渠道：0_微信支付、1_支付宝',
+    `payment_channel_id` bigint COMMENT '支付渠道ID',
+    `payment_status` tinyint NOT NULL DEFAULT '0' COMMENT '支付状态：0_待支付、1_已支付、2_过期、3_支付失败',
+    `payment_time` datetime DEFAULT NULL COMMENT '支付时间',
+    `grant_status` tinyint NOT NULL DEFAULT '0' COMMENT '权益授予状态：0_未开通，1_已开通，2_失败',
+    `grant_time` datetime DEFAULT NULL COMMENT '权益开通时间',
+    `user_comment` varchar(255) DEFAULT NULL COMMENT '用户备注',
+    `admin_comment` varchar(255) DEFAULT NULL COMMENT '管理员备注',
+    `is_deleted` tinyint NOT NULL DEFAULT '0' COMMENT '逻辑删除，0_未删除，1_删除',
+    `create_time` datetime NOT NULL DEFAULT current_timestamp COMMENT '创建时间',
+    `update_time` datetime NOT NULL DEFAULT current_timestamp on update current_timestamp COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    unique (`order_no`),
+    unique (`payment_no_3rd`)
+);
+
 -- 会员权益
 create table if not exists `vip` (
     `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增ID',
