@@ -43,6 +43,9 @@ public enum ErrorCode {
     // 用户信息
     USER_NOT_EXISTED(40101, "用户不存在"),
 
+    //订单信息
+    ORDER_NOT_EXISTED(40201, "订单不存在"),
+
     // 微信相关
     FETCH_WX_USER_INFO_FAILED(40201, "微信用户信息获取失败"),
 

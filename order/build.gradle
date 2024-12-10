@@ -8,7 +8,4 @@ jar {
 
 dependencies {
     implementation project(':common')
-    implementation project(':user')
-    implementation project(':vip')
-    implementation project(':order')
 }
