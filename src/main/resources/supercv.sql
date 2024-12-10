@@ -42,6 +42,21 @@ create table if not exists `admin` (
     primary key (`uid`)
 );
 
+-- 产品信息
+create table if not exists `product` (
+     `id` bigint NOT NULL AUTO_INCREMENT COMMENT '产品ID',
+     `name` varchar(64) NOT NULL COMMENT '产品名称',
+     `original_price` decimal(10, 2) NOT NULL COMMENT '原价',
+     `discount_price` decimal(10, 2) NOT NULL COMMENT '折扣价',
+     `duration_days` int NOT NULL DEFAULT 0 COMMENT '会员时长(天)',
+     `ai_analysis_num` int DEFAULT 0 COMMENT '智能评分调用次数',
+     `ai_optimization_num` int DEFAULT 0 COMMENT '智能优化调用次数',
+     `is_deleted` boolean DEFAULT FALSE COMMENT '是否删除 false为否 true为是',
+     `create_time` datetime NOT NULL DEFAULT current_timestamp COMMENT '创建时间',
+     `update_time` datetime NOT NULL DEFAULT current_timestamp on update current_timestamp COMMENT '更新时间',
+     primary key(`id`)
+);
+
 -- 会员权益
 create table if not exists `vip` (
     `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增ID',

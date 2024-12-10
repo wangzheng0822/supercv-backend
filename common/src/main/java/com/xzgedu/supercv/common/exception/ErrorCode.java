@@ -53,6 +53,9 @@ public enum ErrorCode {
     RESUME_TEMPLATE_NOT_EXISTED(40401, "简历模板不存在"),
     RESUME_NOT_EXISTED(40402, "简历不存在"),
 
+    // 产品相关
+    PRODUCT_NOT_EXISTED(40501, "产品不存在"),
+
     /**
      * ******** 5xxxx系统级别异常 ***************
      */

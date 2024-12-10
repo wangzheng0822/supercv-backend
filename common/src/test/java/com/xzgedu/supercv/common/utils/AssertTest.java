@@ -4,6 +4,8 @@ import com.xzgedu.supercv.common.exception.DataInvalidException;
 import com.xzgedu.supercv.common.exception.ErrorCode;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -95,4 +97,65 @@ public class AssertTest {
         assertEquals("Check nick name failed: [nickname=ThisIsAVeryLongNickNameThatExceedsTheLimit]",
                 exception.getMessage());
     }
+
+    @Test
+    public void checkPositiveNumber_ValidNumber_NoExceptionThrown() {
+        int number = 100;
+        assertDoesNotThrow(() -> {
+            Assert.checkPositiveNumber(number);
+        }, "Exception should not be thrown for valid number");
+
+        BigDecimal bigDecimal = new BigDecimal("10.2");
+        assertDoesNotThrow(() -> {
+            Assert.checkPositiveNumber(bigDecimal.signum());
+        }, "Exception should not be thrown for valid big decimal");
+    }
+
+    @Test
+    public void checkPositiveNumber_InvalidNumber_ExceptionThrown() {
+        int number = -112;
+        DataInvalidException dataInvalidException = assertThrows(DataInvalidException.class, () -> {
+            Assert.checkPositiveNumber(number);
+        });
+
+        assertEquals(ErrorCode.GENERIC_DATA_INVALID, dataInvalidException.ERROR_CODE);
+
+
+        BigDecimal bigDecimal = new BigDecimal("-12.0");
+        dataInvalidException = assertThrows(DataInvalidException.class, () -> {
+            Assert.checkPositiveNumber(bigDecimal.signum());
+        });
+        assertEquals(ErrorCode.GENERIC_DATA_INVALID, dataInvalidException.ERROR_CODE);
+    }
+
+    @Test
+    public void checkPositiveNumber_ValidNumberWithMsg_NoExceptionThrown() {
+        int number = 100;
+        assertDoesNotThrow(() -> {
+            Assert.checkPositiveNumber(number, "param is a positive number");
+        }, "Exception should not be thrown for valid number");
+
+        BigDecimal bigDecimal = new BigDecimal("10.2");
+        assertDoesNotThrow(() -> {
+            Assert.checkPositiveNumber(bigDecimal.signum(), "param is a positive number");
+        }, "Exception should not be thrown for valid big decimal");
+    }
+
+    @Test
+    public void checkPositiveNumber_InValidNumberWithMsg_NoExceptionThrown() {
+        String expectedMessage = "num is a positive number";
+        int number = -112;
+        DataInvalidException dataInvalidException = assertThrows(DataInvalidException.class, () -> {
+            Assert.checkPositiveNumber(number, expectedMessage);
+        });
+        assertEquals(expectedMessage, dataInvalidException.getMessage());
+
+        BigDecimal bigDecimal = new BigDecimal("-12.0");
+        dataInvalidException = assertThrows(DataInvalidException.class, () -> {
+            Assert.checkPositiveNumber(bigDecimal.signum(), expectedMessage);
+        });
+        assertEquals(ErrorCode.GENERIC_DATA_INVALID, dataInvalidException.ERROR_CODE);
+        assertEquals(expectedMessage, dataInvalidException.getMessage());
+    }
+
 }

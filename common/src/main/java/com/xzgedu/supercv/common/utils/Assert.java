@@ -46,5 +46,19 @@ public class Assert {
                     "Check nick name failed: [nickname=" + nickName + "]");
         }
     }
+
+    public static void checkPositiveNumber(int number) {
+        if (number < 0) {
+            throw new DataInvalidException(ErrorCode.GENERIC_DATA_INVALID,
+                    "You need input a positive number.");
+        }
+    }
+
+    public static void checkPositiveNumber(int number, String msg) {
+        if (number < 0) {
+            throw new DataInvalidException(ErrorCode.GENERIC_DATA_INVALID,
+                    msg);
+        }
+    }
 }
 
