@@ -2,4 +2,5 @@ rootProject.name = 'supercv'
 include 'user'
 include 'common'
 include 'admin'
+include 'order'
 
