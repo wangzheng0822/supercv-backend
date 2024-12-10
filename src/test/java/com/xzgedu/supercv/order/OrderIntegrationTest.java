@@ -79,9 +79,6 @@ public class OrderIntegrationTest {
         order.setUserId(authToken.getUid());
         order.setOrderNo(orderService.generateOrderNo(authToken.getUid()));
         order.setProductId(1l);
-        order.setOrderTime(DateUtil.now());
-        order.setPaymentStatus( 0);
-        order.setGrantStatus(0);
         orderService.addOrder(order);
         return order;
     }
@@ -105,6 +102,32 @@ public class OrderIntegrationTest {
         assertEquals(ErrorCode.SUCCESS.getCode(),responseData.getCode());
         assertNotNull(responseData.getData());
         assertEquals(order.getOrderNo(),responseData.getData().getOrderNo());
+    }
+
+    @Test
+    void createOrderTest_success() throws Exception {
+        Order order = new Order();
+        order.setUserId(authToken.getUid());
+        order.setProductId(2l);
+        String orderJson = JSONObject.toJSONString(order);
+
+        MvcResult result = mockMvc.perform(post("/v1/order/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(orderJson)
+                        .header("uid", String.valueOf(authToken.getUid()))
+                        .header("Origin", "https://www.supercv.cn")
+                        .header("Authorization", "Bearer " + authToken.getToken())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        ResponseData<Order> responseData = new ObjectMapper().readValue(content, new TypeReference<ResponseData<Order>>() {
+        });
+        assertEquals(ErrorCode.SUCCESS.getCode(),responseData.getCode());
+        assertNotNull(responseData.getData());
+        assertEquals(2l, responseData.getData().getProductId());
+
     }
 
     @Test

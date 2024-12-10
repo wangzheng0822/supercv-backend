@@ -93,7 +93,7 @@ public class OrderController {
 
     @Operation(summary = "创建订单")
     @PostMapping(path = "/create")
-    public String addOrder(@RequestBody Order order) throws GenericBizException {
+    public Order addOrder(@RequestBody Order order) throws GenericBizException {
         // 检查用户ID是否存在
         if (Objects.isNull(order.getUserId())) {
             throw new GenericBizException("User id is required");
@@ -112,7 +112,7 @@ public class OrderController {
             throw new GenericBizException("Failed to create order");
         }
 
-        return orderNo;
+        return orderService.getOrderByOrderNo(orderNo);
     }
 
     @PostMapping("/payment")
