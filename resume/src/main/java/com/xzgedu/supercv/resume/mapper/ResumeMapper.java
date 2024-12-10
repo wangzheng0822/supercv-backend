@@ -27,9 +27,8 @@ public interface ResumeMapper {
             @Result(property = "deleted", column = "is_deleted"),
     })
     @Select("select resume.*, resume_template.name, resume_template.css_name from resume left join resume_template " +
-            "on resume.template_id=resume_template.id where id=#{id}")
+            "on resume.template_id=resume_template.id where resume.id=#{id}")
     Resume selectResumeById(@Param("id") long id);
-
 
     //分页获取Resume
     @Select("select * from resume where is_deleted=false limit #{limitOffset}, #{limitSize}")
@@ -37,7 +36,7 @@ public interface ResumeMapper {
 
     @ResultMap("Resume")
     @Select("select resume.*, resume_template.name, resume_template.css_name from resume left join resume_template " + "" +
-            "on resume.template_id=resume_template.id where uid=#{uid} and is_deleted=false")
+            "on resume.template_id=resume_template.id where uid=#{uid} and resume.is_deleted=false")
     List<Resume> selectResumesByUid(@Param("uid") long uid);
 
     @Options(useGeneratedKeys = true, keyProperty = "id")
