@@ -50,8 +50,8 @@ public class OrderService {
         return timeStr + userIdStr + randomStr;
     }
 
-    public Order getOrderById(long oid) {
-        return orderRepo.getOrderById(oid);
+    public Order getOrderById(long id) {
+        return orderRepo.getOrderById(id);
     }
 
     public Order getOrderByOrderNo(String orderNo) {
@@ -81,46 +81,50 @@ public class OrderService {
         return orderRepo.addOrder(order);
     }
 
-    public boolean updatePaymentStatus(String orderNo, Order order) {
-        Integer paymentStatus = order.getPaymentStatus();
-        if (Objects.isNull(paymentStatus)) {
+    public boolean updatePaymentStatus(
+        Long id, 
+        Integer paymentStatus, 
+        String paymentNo3rd, 
+        Integer paymentChannelType, 
+        Long paymentChannelId) {
+        if (Objects.isNull(id) || Objects.isNull(paymentStatus)) {
             return false;
         }
 
         // 支付成功时需要更新支付相关信息
         if (PAY_SUCCESS.equals(paymentStatus)) {
             return orderRepo.updatePaymentStatusSuccess(
-                    orderNo,
-                    order.getPaymentNo3rd(),
-                    order.getPaymentChannelType(),
-                    order.getPaymentChannelId()
+                    id,
+                    paymentNo3rd,
+                    paymentChannelType,
+                    paymentChannelId
             );
         }
 
         // 其他状态只需更新支付状态
-        return orderRepo.updatePaymentStatusNotSuccess(orderNo, paymentStatus);
+        return orderRepo.updatePaymentStatusNotSuccess(id, paymentStatus);
     }
 
-    public boolean updateGrantStatus(String orderNo, Integer grantStatus) {
+    public boolean updateGrantStatus(Long id, Integer grantStatus) {
         if (Objects.isNull(grantStatus)) {
             return false;
         }
         if (GRANT_SUCCESS.equals(grantStatus)) {
-            return orderRepo.updateGrantStatusSuccess(orderNo);
+            return orderRepo.updateGrantStatusSuccess(id);
         }
-        return orderRepo.updateGrantStatusNotSuccess(orderNo, grantStatus);
+        return orderRepo.updateGrantStatusNotSuccess(id, grantStatus);
     }
 
-    public boolean updateUserComment(String orderNo, String userComment) {
-        return orderRepo.updateUserComment(orderNo, userComment);
+    public boolean updateUserComment(Long id, String userComment) {
+        return orderRepo.updateUserComment(id, userComment);
     }
 
-    public boolean updateAdminComment(String orderNo, String adminComment) {
-        return orderRepo.updateAdminComment(orderNo, adminComment);
+    public boolean updateAdminComment(Long id, String adminComment) {
+        return orderRepo.updateAdminComment(id, adminComment);
     }
 
-    public boolean updateLogicDeletion(long oid) {
-        return orderRepo.updateLogicDeletion(oid);
+    public boolean updateLogicDeletion(long id) {
+        return orderRepo.updateLogicDeletion(id);
     }
 
     public int batchUpdatePaymentStatusOverTime() throws GenericBizException{

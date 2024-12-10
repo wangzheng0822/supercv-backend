@@ -214,16 +214,14 @@ public class OrderIntegrationTest {
 
     @Test
     void getOrderListByPaymentChannelTypeTest_success() throws Exception {
+        Integer paymentChannelType = PAY_CHANNEL_TYPE_WECHAT;
+        String paymentNo3rd = PAYMENTNO3RD;
+        Long paymentChannelId = 1l;
 
-        String orderNo = randomOrder.getOrderNo();
-        Order updateOrder = new Order();
-        updateOrder.setOrderNo(randomOrder.getOrderNo());
-        updateOrder.setPaymentChannelType(PAY_CHANNEL_TYPE_WECHAT);
-        updateOrder.setPaymentStatus(PAY_SUCCESS);
-        updateOrder.setPaymentNo3rd(PAYMENTNO3RD);
-        orderService.updatePaymentStatus(orderNo,updateOrder);
+        orderService.updatePaymentStatus(randomOrder.getId(), PAY_SUCCESS, paymentNo3rd, paymentChannelType, paymentChannelId);
 
         Order testOrder = new Order();
+        testOrder.setId(randomOrder.getId());
         testOrder.setPaymentChannelType(PAY_CHANNEL_TYPE_WECHAT);
         String orderJson = JSONObject.toJSONString(testOrder);
 
@@ -306,16 +304,14 @@ public class OrderIntegrationTest {
     @Test
     void getOrderListByTimeRangeTest_success() throws Exception {
 
-        String orderNo = randomOrder.getOrderNo();
-        Order updateOrder = new Order();
-        updateOrder.setOrderNo(randomOrder.getOrderNo());
-        updateOrder.setPaymentChannelType(PAY_CHANNEL_TYPE_WECHAT);
-        updateOrder.setPaymentStatus(PAY_SUCCESS);
-        updateOrder.setPaymentNo3rd("123456");
-        orderService.updatePaymentStatus(orderNo,updateOrder);
+        Integer paymentStatus = PAY_SUCCESS;
+        String paymentNo3rd = PAYMENTNO3RD;
+        Integer paymentChannelType = PAY_CHANNEL_TYPE_WECHAT;
+        Long paymentChannelId = 1l;
+        orderService.updatePaymentStatus(randomOrder.getId(), paymentStatus, paymentNo3rd, paymentChannelType, paymentChannelId);
 
         Order testOrder = new Order();
-        testOrder.setOrderNo(randomOrder.getOrderNo());
+        testOrder.setId(randomOrder.getId());
         testOrder.setOrderStartTime(new Date(System.currentTimeMillis() - 3600000)); // 1小时前
         testOrder.setOrderEndTime(new Date());
         String orderJson = JSONObject.toJSONString(testOrder);
@@ -344,26 +340,24 @@ public class OrderIntegrationTest {
 
     @Test
     void updateUserPaymentStatusSuccessTest_success() throws Exception {
-        String orderNo = randomOrder.getOrderNo();
-        Order testOrder = new Order();
-        testOrder.setOrderNo(orderNo);
-        testOrder.setPaymentStatus(PAY_SUCCESS);
-        testOrder.setPaymentNo3rd(PAYMENTNO3RD);
-        testOrder.setPaymentChannelType(PAY_CHANNEL_TYPE_WECHAT);
-        testOrder.setPaymentChannelId(1l);
+        Integer paymentStatus = PAY_SUCCESS;
+        String paymentNo3rd = PAYMENTNO3RD;
+        Integer paymentChannelType = PAY_CHANNEL_TYPE_WECHAT;
+        Long paymentChannelId = 1l;
 
-        String orderJson = JSONObject.toJSONString(testOrder);
-        mockMvc.perform(post("/v1/order/update")
-                        .param("orderNo", orderNo)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(orderJson)
+        mockMvc.perform(post("/v1/order/payment")
+                        .param("id", String.valueOf(randomOrder.getId()))
+                        .param("paymentStatus", String.valueOf(paymentStatus))
+                        .param("paymentNo3rd", paymentNo3rd)
+                        .param("paymentChannelType", String.valueOf(paymentChannelType))
+                        .param("paymentChannelId", String.valueOf(paymentChannelId))
                         .header("uid", String.valueOf(authToken.getUid()))
                         .header("Origin", "https://www.supercv.cn")
                         .header("Authorization", "Bearer " + authToken.getToken())
                         .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
 
-        Order order = orderService.getOrderByOrderNo(orderNo);
+        Order order = orderService.getOrderById(randomOrder.getId());
         assertNotNull(order);
         assertEquals(PAY_SUCCESS, order.getPaymentStatus());
         assertNotNull(order.getPaymentTime());
@@ -372,69 +366,53 @@ public class OrderIntegrationTest {
 
     @Test
     void updateUserPaymentStatusFailedTest_success() throws Exception {
-        String orderNo = randomOrder.getOrderNo();
-        Order testOrder = new Order();
-        testOrder.setOrderNo(orderNo);
-        testOrder.setPaymentStatus(PAY_FAILED);
+        Integer paymentStatus = PAY_FAILED;
 
-        String orderJson = JSONObject.toJSONString(testOrder);
-        mockMvc.perform(post("/v1/order/update")
-                        .param("orderNo", orderNo)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(orderJson)
+        mockMvc.perform(post("/v1/order/payment")
+                        .param("id", String.valueOf(randomOrder.getId()))
+                        .param("paymentStatus", String.valueOf(paymentStatus))
                         .header("uid", String.valueOf(authToken.getUid()))
                         .header("Origin", "https://www.supercv.cn")
                         .header("Authorization", "Bearer " + authToken.getToken())
                         .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
 
-        Order order = orderService.getOrderByOrderNo(orderNo);
+        Order order = orderService.getOrderById(randomOrder.getId());
         assertNotNull(order);
         assertEquals(PAY_FAILED, order.getPaymentStatus());
     }
 
     @Test
     void updateUserPaymentStatusOvertimeTest_success() throws Exception {
-        String orderNo = randomOrder.getOrderNo();
-        Order testOrder = new Order();
-        testOrder.setOrderNo(orderNo);
-        testOrder.setPaymentStatus(PAY_OVERTIME);
+        Integer paymentStatus = PAY_OVERTIME;
 
-        String orderJson = JSONObject.toJSONString(testOrder);
-        mockMvc.perform(post("/v1/order/update")
-                        .param("orderNo", orderNo)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(orderJson)
+        mockMvc.perform(post("/v1/order/payment")
+                        .param("id", String.valueOf(randomOrder.getId()))
+                        .param("paymentStatus", String.valueOf(paymentStatus))
                         .header("uid", String.valueOf(authToken.getUid()))
                         .header("Origin", "https://www.supercv.cn")
                         .header("Authorization", "Bearer " + authToken.getToken())
                         .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
 
-        Order order = orderService.getOrderByOrderNo(orderNo);
+        Order order = orderService.getOrderById(randomOrder.getId());
         assertNotNull(order);
         assertEquals(PAY_OVERTIME, order.getPaymentStatus());
     }
 
     @Test
     void updateUserGrantStatusSuccessTest_success() throws Exception {
-        String orderNo = randomOrder.getOrderNo();
-        Order testOrder = new Order();
-        testOrder.setOrderNo(orderNo);
-        testOrder.setGrantStatus(GRANT_SUCCESS);
 
-        String orderJson = JSONObject.toJSONString(testOrder);
-        mockMvc.perform(post("/v1/order/update")
-                        .param("orderNo", orderNo)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(orderJson)
+        mockMvc.perform(post("/v1/order/grant")
+                        .param("id", String.valueOf(randomOrder.getId()))
+                        .param("grantStatus", String.valueOf(GRANT_SUCCESS))
                         .header("uid", String.valueOf(authToken.getUid()))
                         .header("Origin", "https://www.supercv.cn")
                         .header("Authorization", "Bearer " + authToken.getToken())
                         .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
 
-        Order order = orderService.getOrderByOrderNo(orderNo);
+        Order order = orderService.getOrderById(randomOrder.getId());
         assertNotNull(order);
         assertEquals(GRANT_SUCCESS, order.getGrantStatus());
         assertNotNull(order.getGrantTime());
@@ -442,85 +420,67 @@ public class OrderIntegrationTest {
 
     @Test
     void userGrantFailedTest_success() throws Exception {
-        String orderNo = randomOrder.getOrderNo();
-        Order testOrder = new Order();
-        testOrder.setOrderNo(orderNo);
-        testOrder.setGrantStatus(GRANT_FAILED);
 
-        String orderJson = JSONObject.toJSONString(testOrder); 
-        mockMvc.perform(post("/v1/order/update")
-                        .param("orderNo", orderNo)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(orderJson)
+        mockMvc.perform(post("/v1/order/grant")
+                        .param("id", String.valueOf(randomOrder.getId()))
+                        .param("grantStatus", String.valueOf(GRANT_FAILED))
                         .header("uid", String.valueOf(authToken.getUid()))
                         .header("Origin", "https://www.supercv.cn")
                         .header("Authorization", "Bearer " + authToken.getToken())
                         .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
 
-        Order order = orderService.getOrderByOrderNo(orderNo);
+        Order order = orderService.getOrderById(randomOrder.getId());
         assertNotNull(order);
         assertEquals(GRANT_FAILED, order.getGrantStatus());
     }
 
     @Test
     void updateUserCommentTest_success() throws Exception {
-        String orderNo = randomOrder.getOrderNo();
-        Order testOrder = new Order();
-        testOrder.setOrderNo(orderNo);
-        testOrder.setUserComment("test comment");
+        String userComment = "test comment";
 
-        String orderJson = JSONObject.toJSONString(testOrder);
-        mockMvc.perform(post("/v1/order/update")
-                        .param("orderNo", orderNo)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(orderJson)
+        mockMvc.perform(post("/v1/order/user-comment")
+                        .param("id", String.valueOf(randomOrder.getId()))
+                        .param("userComment", userComment)
                         .header("uid", String.valueOf(authToken.getUid()))
                         .header("Origin", "https://www.supercv.cn")
                         .header("Authorization", "Bearer " + authToken.getToken())
                         .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
 
-        Order order = orderService.getOrderByOrderNo(orderNo);
+        Order order = orderService.getOrderById(randomOrder.getId());
         assertNotNull(order);
-        assertEquals("test comment", order.getUserComment());
+        assertEquals(userComment, order.getUserComment());
     }
 
     @Test
     void updateAdminCommentTest_success() throws Exception {
-        String orderNo = randomOrder.getOrderNo();
-        Order testOrder = new Order();
-        testOrder.setOrderNo(orderNo);
-        testOrder.setAdminComment("test comment");
-
-        String orderJson = JSONObject.toJSONString(testOrder);
-        mockMvc.perform(post("/v1/order/update")
-                        .param("orderNo", orderNo)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(orderJson)
+        String adminComment = "test comment";
+        mockMvc.perform(post("/v1/order/admin-comment")
+                        .param("id", String.valueOf(randomOrder.getId()))
+                        .param("adminComment", adminComment)
                         .header("uid", String.valueOf(authToken.getUid()))
                         .header("Origin", "https://www.supercv.cn")
                         .header("Authorization", "Bearer " + authToken.getToken())
                         .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
 
-        Order order = orderService.getOrderByOrderNo(orderNo);
+        Order order = orderService.getOrderById(randomOrder.getId());
         assertNotNull(order);
-        assertEquals("test comment", order.getAdminComment());
+        assertEquals(adminComment, order.getAdminComment());
     }
 
     @Test
     void logicalDeleteOrderTest_success() throws Exception {
-        Long orderId = randomOrder.getId();
         mockMvc.perform(post("/v1/order/delete")
-                        .param("id", String.valueOf(orderId))
+                        .param("id", String.valueOf(randomOrder.getId()))
                         .header("uid", String.valueOf(authToken.getUid()))
                         .header("Origin", "https://www.supercv.cn")
                         .header("Authorization", "Bearer " + authToken.getToken())
                         .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
 
-        Order order = orderService.getOrderById(orderId);
+        Order order = orderService.getOrderById(randomOrder.getId());
         assertEquals(1, order.getIsDeleted());
     }
 }

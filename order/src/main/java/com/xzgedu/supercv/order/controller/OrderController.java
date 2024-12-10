@@ -24,11 +24,11 @@ public class OrderController {
 
     @Operation(summary = "根据订单id获取订单信息")
     @GetMapping(path = "/info")
-    public Order getOrderInfo(@RequestParam("oid") long oid) throws OrderNotFoundException {
-        Order order = orderService.getOrderById(oid);
+    public Order getOrderInfo(@RequestParam("id") long id) throws OrderNotFoundException {
+        Order order = orderService.getOrderById(id);
         //TODO 填充产品名称
         if (Objects.isNull(order)) {
-            throw new OrderNotFoundException("Order not found: [oid=" + oid + "]");
+            throw new OrderNotFoundException("Order not found: [id=" + id + "]");
         }
         return order;
     }
@@ -115,60 +115,57 @@ public class OrderController {
         return orderNo;
     }
 
-    @Operation(summary = "更新订单")
-    @PostMapping(path = "/update")
-    public void updateOrder(@RequestBody Order order) throws GenericBizException {
-        // 校验订单号
-        String orderNo = order.getOrderNo();
-        if (Objects.isNull(orderNo)) {
-            throw new GenericBizException("订单号不能为空");
+    @PostMapping("/payment")
+    @Operation(summary = "更新订单支付状态")
+    public void updateOrderPayment(
+            @RequestParam(value = "id", required = true) Long id,
+            @RequestParam(value = "paymentStatus", required = true) Integer paymentStatus,
+            @RequestParam(value = "paymentNo3rd", required = false) String paymentNo3rd,
+            @RequestParam(value = "paymentChannelType", required = false) Integer paymentChannelType,
+            @RequestParam(value = "paymentChannelId", required = false) Long paymentChannelId
+    ) throws GenericBizException {
+        if (Objects.isNull(id) || Objects.isNull(paymentStatus)) {
+            throw new GenericBizException("id and paymentStatus are required");
         }
 
-        try {
-            // 更新支付状态
-            updatePaymentStatusIfNeeded(order);
-
-            // 更新权益状态
-            updateGrantStatusIfNeeded(order);
-
-            // 更新用户评价
-            updateUserCommentIfNeeded(order);
-
-            // 更新管理员评价
-            updateAdminCommentIfNeeded(order);
-
-        } catch (Exception e) {
-            throw new GenericBizException("更新订单失败: " + e.getMessage());
+        if (!orderService.updatePaymentStatus(id, paymentStatus, paymentNo3rd, paymentChannelType, paymentChannelId)) {
+            throw new GenericBizException("Failed to update payment status");
         }
     }
 
-    private void updatePaymentStatusIfNeeded(Order order) throws GenericBizException {
-        Integer paymentStatus = order.getPaymentStatus();
-        if (paymentStatus != null && !orderService.updatePaymentStatus(order.getOrderNo(), order)) {
-            throw new GenericBizException(String.format("更新支付状态失败: [orderNo=%s, paymentStatus=%d]",
-                    order.getOrderNo(), paymentStatus));
+    @PostMapping("/grant")
+    @Operation(summary = "更新订单权益状态")
+    public void updateOrderGrant(@RequestParam("id") Long id, @RequestParam("grantStatus") Integer grantStatus) throws GenericBizException {
+        if (Objects.isNull(id) || Objects.isNull(grantStatus)) {
+            throw new GenericBizException("id and grantStatus are required");
+        }
+
+        if (!orderService.updateGrantStatus(id, grantStatus)) {
+            throw new GenericBizException("Failed to update grant status");
         }
     }
 
-    private void updateGrantStatusIfNeeded(Order order) throws GenericBizException {
-        Integer grantStatus = order.getGrantStatus();
-        if (grantStatus != null && !orderService.updateGrantStatus(order.getOrderNo(), grantStatus)) {
-            throw new GenericBizException(String.format("更新权益状态失败: [orderNo=%s, grantStatus=%d]",
-                    order.getOrderNo(), grantStatus));
+    @PostMapping("/user-comment")
+    @Operation(summary = "更新用户评价")
+    public void updateUserComment(@RequestParam("id") Long id, @RequestParam("userComment") String userComment) throws GenericBizException {
+        if (Objects.isNull(id) || Objects.isNull(userComment)) {
+            throw new GenericBizException("id and userComment are required");
+        }
+
+        if (!orderService.updateUserComment(id, userComment)) {
+            throw new GenericBizException("Failed to update user comment");
         }
     }
 
-    private void updateUserCommentIfNeeded(Order order) throws GenericBizException {
-        String userComment = order.getUserComment();
-        if (userComment != null && !orderService.updateUserComment(order.getOrderNo(), userComment)) {
-            throw new GenericBizException(String.format("更新用户评价失败: [orderNo=%s]", order.getOrderNo()));
+    @PostMapping("/admin-comment")
+    @Operation(summary = "更新管理员评价")
+    public void updateAdminComment(@RequestParam("id") Long id, @RequestParam("adminComment") String adminComment) throws GenericBizException {
+        if (Objects.isNull(id) || Objects.isNull(adminComment)) {
+            throw new GenericBizException("id and adminComment are required");
         }
-    }
 
-    private void updateAdminCommentIfNeeded(Order order) throws GenericBizException {
-        String adminComment = order.getAdminComment();
-        if (adminComment != null && !orderService.updateAdminComment(order.getOrderNo(), adminComment)) {
-            throw new GenericBizException(String.format("更新管理员评价失败: [orderNo=%s]", order.getOrderNo()));
+        if (!orderService.updateAdminComment(id, adminComment)) {
+            throw new GenericBizException("Failed to update admin comment");
         }
     }
 

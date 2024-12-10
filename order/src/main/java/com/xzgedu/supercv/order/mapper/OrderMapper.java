@@ -63,26 +63,26 @@ public interface OrderMapper {
             "values (#{orderNo}, #{userId}, #{productId}, #{orderTime}, #{paymentStatus}, #{grantStatus})")
     int insertOrder(Order order);
 
-    @Update("update `order` set payment_status = 1, payment_no_3rd = #{paymentNo3rd}, payment_channel_type = #{paymentChannelType}, payment_channel_id = #{paymentChannelId}, payment_time = now() where order_no = #{orderNo}")
-    int updatePaymentStatusSuccess(@Param("orderNo") String orderNo, @Param("paymentNo3rd") String paymentNo3rd, @Param("paymentChannelType") Integer paymentChannelType, @Param("paymentChannelId") Long paymentChannelId);
+    @Update("update `order` set payment_status = 1, payment_no_3rd = #{paymentNo3rd}, payment_channel_type = #{paymentChannelType}, payment_channel_id = #{paymentChannelId}, payment_time = now() where id = #{id}")
+    int updatePaymentStatusSuccess(@Param("id") Long id, @Param("paymentNo3rd") String paymentNo3rd, @Param("paymentChannelType") Integer paymentChannelType, @Param("paymentChannelId") Long paymentChannelId);
 
-    @Update("update `order` set payment_status = #{paymentStatus} where order_no = #{orderNo}")
-    int updatePaymentStatusNotSuccess(@Param("orderNo") String orderNo, @Param("paymentStatus") Integer paymentStatus);
+    @Update("update `order` set payment_status = #{paymentStatus} where id = #{id}")
+    int updatePaymentStatusNotSuccess(@Param("id") Long id, @Param("paymentStatus") Integer paymentStatus);
 
-    @Update("update `order` set grant_status = 1, grant_time = now() where order_no = #{orderNo}")
-    int updateGrantStatusSuccess(@Param("orderNo") String orderNo);
+    @Update("update `order` set grant_status = 1, grant_time = now() where id = #{id}")
+    int updateGrantStatusSuccess(@Param("id") Long id);
 
-    @Update("update `order` set grant_status = #{grantStatus} where order_no = #{orderNo}")
-    int updateGrantStatusNotSuccess(@Param("orderNo") String orderNo, @Param("grantStatus") Integer grantStatus);
+    @Update("update `order` set grant_status = #{grantStatus} where id = #{id}")
+    int updateGrantStatusNotSuccess(@Param("id") Long id, @Param("grantStatus") Integer grantStatus);
 
-    @Update("update `order` set user_comment = #{userComment} where order_no = #{orderNo}")
-    int updateUserComment(@Param("orderNo") String orderNo, @Param("userComment") String userComment);
+    @Update("update `order` set user_comment = #{userComment} where id = #{id}")
+    int updateUserComment(@Param("id") Long id, @Param("userComment") String userComment);
 
-    @Update("update `order` set admin_comment = #{adminComment} where order_no = #{orderNo}")
-    int updateAdminComment(@Param("orderNo") String orderNo, @Param("adminComment") String adminComment);
+    @Update("update `order` set admin_comment = #{adminComment} where id = #{id}")
+    int updateAdminComment(@Param("id") Long id, @Param("adminComment") String adminComment);
 
-    @Update("update `order` set is_deleted = 1 where id = #{oid}")
-    int updateLogicDeletion(@Param("oid") long oid);
+    @Update("update `order` set is_deleted = 1 where id = #{id}")
+    int updateLogicDeletion(@Param("id") long id);
 
     @Update("update `order` set payment_status = 2 where order_time < NOW() - INTERVAL 15 MINUTE AND payment_status = 0")
     int batchUpdatePaymentStatusOverTime();
