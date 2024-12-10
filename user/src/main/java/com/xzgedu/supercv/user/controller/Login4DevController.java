@@ -23,8 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class Login4DevController {
 
-    //TODO: 填写默认头像
-    private static final String DEFAULT_USER_HEAD_IMG_URL = "";
+    private static final String DEFAULT_USER_HEAD_IMG_URL = "https://static.supercv.cn/image/default_head_img.png";
     private static final String DEFAULT_NICK_NAME_PREFIX = "超能用户";
 
     @Autowired

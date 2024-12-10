@@ -64,4 +64,12 @@ public class SpringDocConfig {
                 .pathsToMatch("/admin/**")
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi resumeApi() {
+        return GroupedOpenApi.builder()
+                .group("Resume")
+                .pathsToMatch("/v1/resume/**")
+                .build();
+    }
 }

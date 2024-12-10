@@ -18,6 +18,18 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Autowired
     private IdentifierInterceptor identifierInterceptor;
 
+    @Autowired
+    private AdminPassInterceptor adminPassInterceptor;
+
+    @Autowired
+    private AdminInterceptor adminInterceptor;
+
+    @Autowired
+    ResumeOwnershipInterceptor resumeOwnershipInterceptor;
+
+    @Autowired
+    VipBenefitInterceptor vipBenefitInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
@@ -25,6 +37,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(authTokenInterceptor)
                 .addPathPatterns("/v1/**", "/admin/**")
                 .excludePathPatterns("/v1/login/**")
+                .excludePathPatterns("/v1/resume/template/list")
+                .excludePathPatterns("/v1/resume/template/list/mock")
                 .order(1);
 
         //非管理员用户只能操作自己的数据，参数uid要跟header中uid相同
@@ -32,5 +46,36 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .addPathPatterns("/v1/**", "/admin/**")
                 .excludePathPatterns("/v1/login/**")
                 .order(2);
+
+        //管理员接口访问权限控制
+        registry.addInterceptor(adminInterceptor)
+                .addPathPatterns("/admin/**")
+                .excludePathPatterns("/admin/account/check")
+                .order(3);
+
+        //管理员可以访问所有接口
+        registry.addInterceptor(adminPassInterceptor)
+                .addPathPatterns("/v1/**")
+                .order(4);
+
+        //简历归属权检查
+        registry.addInterceptor(resumeOwnershipInterceptor)
+                .addPathPatterns("/v1/resume/detail")
+                .addPathPatterns("/v1/resume/update")
+                .addPathPatterns("/v1/resume/delete")
+                .addPathPatterns("/v1/resume/copy")
+                .addPathPatterns("/v1/resume/baseinfo/**")
+                .addPathPatterns("/v1/resume/module/**")
+                .order(5);
+
+        //仅VIP可操作的接口
+        registry.addInterceptor(vipBenefitInterceptor)
+                .addPathPatterns("/v1/resume/create")
+                .addPathPatterns("/v1/resume/create-from-file")
+                .addPathPatterns("/v1/resume/copy")
+                .addPathPatterns("/v1/resume/update")
+                .addPathPatterns("/v1/resume/baseinfo/**")
+                .addPathPatterns("/v1/resume/module/**")
+                .order(6);
     }
 }

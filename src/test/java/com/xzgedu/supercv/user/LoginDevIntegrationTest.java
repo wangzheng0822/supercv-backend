@@ -90,7 +90,6 @@ public class LoginDevIntegrationTest {
         assertTrue(user.getOpenId().startsWith("o_"));
         assertTrue(user.getUnionId().startsWith("u_"));
         assertTrue(user.getNickName().startsWith("超能用户"));
-        assertEquals("", user.getHeadImgUrl());
     }
 
     @Test

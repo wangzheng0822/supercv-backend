@@ -19,6 +19,7 @@ public enum ErrorCode {
     NO_PERMISSION(30103, "没有权限"),
     TOO_FREQUENT_REQUEST(30104, "请求过于频繁"),
     DENY_FOR_PROD(30105, "生产环境禁止使用此功能"),
+    NO_PERMISSION_FOR_ADMIN(30106, "非管理员禁止访问"),
 
     // 用户信息
     NICKNAME_INVALID(30201, "昵称不符合要求(长度限于1个字~10个字)"),
@@ -50,6 +51,10 @@ public enum ErrorCode {
 
     // 短信验证
     SMS_CODE_SEND_FAILED(40301, "验证码发送失败"),
+
+    //简历
+    RESUME_TEMPLATE_NOT_EXISTED(40401, "简历模板不存在"),
+    RESUME_NOT_EXISTED(40402, "简历不存在"),
 
     /**
      * ******** 5xxxx系统级别异常 ***************

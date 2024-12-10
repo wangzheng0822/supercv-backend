@@ -1,5 +1,6 @@
 package com.xzgedu.supercv.filter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,10 +12,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FilterConfig {
 
+    @Autowired
+    private CorsFilter corsFilter;
+
     @Bean
     public FilterRegistrationBean addCorsFilter() {
         FilterRegistrationBean bean = new FilterRegistrationBean();
-        bean.setFilter(new CorsFilter());
+        bean.setFilter(corsFilter);
         bean.addUrlPatterns("/v1/*");
         bean.setOrder(1);
         return bean;
