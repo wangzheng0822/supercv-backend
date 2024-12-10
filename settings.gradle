@@ -4,4 +4,5 @@ include 'common'
 include 'admin'
 include 'resume'
 include 'vip'
+include 'order'
 
