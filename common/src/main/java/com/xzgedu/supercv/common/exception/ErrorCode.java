@@ -53,6 +53,10 @@ public enum ErrorCode {
     RESUME_TEMPLATE_NOT_EXISTED(40401, "简历模板不存在"),
     RESUME_NOT_EXISTED(40402, "简历不存在"),
 
+    // 文章
+    ARTICLE_CATE_TYPE_ERR(40501, "文章类型错误"),
+    ARTICLE_CONTENT_ERR(40502, "文章标题或内容不能为空"),
+
     /**
      * ******** 5xxxx系统级别异常 ***************
      */
