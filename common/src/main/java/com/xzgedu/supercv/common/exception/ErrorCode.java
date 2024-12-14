@@ -53,6 +53,16 @@ public enum ErrorCode {
     RESUME_TEMPLATE_NOT_EXISTED(40401, "简历模板不存在"),
     RESUME_NOT_EXISTED(40402, "简历不存在"),
 
+    //订单
+    ORDER_NOT_EXISTED(40501, "订单不存在"),
+
+    //支付
+    PAYMENT_FAILED(40601, "支付失败，请稍后重试或联系客服"),
+    PAYMENT_CHANNEL_DISABLED(40602, "支付渠道更新，请刷新重试！"),
+
+    //产品
+    PRODUCT_NOT_EXISTED(40701, "产品不存在"),
+
     /**
      * ******** 5xxxx系统级别异常 ***************
      */
