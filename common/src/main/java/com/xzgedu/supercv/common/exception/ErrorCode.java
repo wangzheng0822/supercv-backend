@@ -53,9 +53,19 @@ public enum ErrorCode {
     RESUME_TEMPLATE_NOT_EXISTED(40401, "简历模板不存在"),
     RESUME_NOT_EXISTED(40402, "简历不存在"),
 
+    //订单
+    ORDER_NOT_EXISTED(40501, "订单不存在"),
+
+    //支付
+    PAYMENT_FAILED(40601, "支付失败，请稍后重试或联系客服"),
+    PAYMENT_CHANNEL_DISABLED(40602, "支付渠道更新，请刷新重试！"),
+
+    //产品
+    PRODUCT_NOT_EXISTED(40701, "产品不存在"),
+  
     // 文章
-    ARTICLE_CATE_TYPE_ERR(40501, "文章类型错误"),
-    ARTICLE_CONTENT_ERR(40502, "文章标题或内容不能为空"),
+    ARTICLE_CATE_TYPE_ERR(40801, "文章类型错误"),
+    ARTICLE_CONTENT_ERR(40802, "文章标题或内容不能为空"),
 
     /**
      * ******** 5xxxx系统级别异常 ***************

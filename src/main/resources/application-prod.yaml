@@ -55,3 +55,10 @@ tencent:
 captcha:
   captchaAppId: set_by_env_variable
   appSecretKey: set_by_env_variable
+
+wxPay:
+  privateKeyPath: set_by_env_variable
+  appId: set_by_env_variable
+  merchantId: set_by_env_variable
+  apiV3Key: set_by_env_variable
+  merchantSerialNumber: set_by_env_variable

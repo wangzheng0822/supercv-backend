@@ -31,3 +31,10 @@ tencent:
 captcha:
   captchaAppId: no_need_to_set
   appSecretKey: no_need_to_set
+
+wxPay:
+  privateKeyPath: no_need_to_set
+  appId: no_need_to_set
+  merchantId: no_need_to_set
+  apiV3Key: no_need_to_set
+  merchantSerialNumber: no_need_to_set
