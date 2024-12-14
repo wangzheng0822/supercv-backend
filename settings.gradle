@@ -4,6 +4,6 @@ include 'common'
 include 'admin'
 include 'resume'
 include 'vip'
+include 'article'
 include 'product'
 include 'order'
-

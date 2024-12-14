@@ -62,6 +62,10 @@ public enum ErrorCode {
 
     //产品
     PRODUCT_NOT_EXISTED(40701, "产品不存在"),
+  
+    // 文章
+    ARTICLE_CATE_TYPE_ERR(40801, "文章类型错误"),
+    ARTICLE_CONTENT_ERR(40802, "文章标题或内容不能为空"),
 
     /**
      * ******** 5xxxx系统级别异常 ***************
