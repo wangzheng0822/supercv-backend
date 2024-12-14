@@ -5,4 +5,5 @@ include 'admin'
 include 'resume'
 include 'vip'
 include 'product'
+include 'order'
 

@@ -74,5 +74,4 @@ public class VipIntegrationTest {
         assertEquals(10, vip.getAiAnalysisLeftNum());
         assertEquals(20, vip.getAiOptimizationLeftNum());
     }
-
 }

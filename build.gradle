@@ -16,6 +16,7 @@ dependencies {
     implementation project(':admin')
     implementation project(':vip')
     implementation project(':product')
+    implementation project(':order')
 }
 
 allprojects {
@@ -77,6 +78,9 @@ allprojects {
 
         // commons-lang3, include StringUtils
         implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+        //微信官方支付：https://github.com/wechatpay-apiv3/wechatpay-java?tab=readme-ov-file
+        implementation 'com.github.wechatpay-apiv3:wechatpay-java:0.2.14'
     }
 
     tasks.named('test') {
