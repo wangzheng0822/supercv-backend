@@ -13,4 +13,5 @@ dependencies {
     implementation project(':product')
     implementation project(':order')
     implementation project(':article')
+    implementation project(':resume')
 }

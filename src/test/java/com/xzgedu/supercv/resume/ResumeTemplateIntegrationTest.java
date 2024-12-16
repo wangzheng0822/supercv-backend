@@ -6,6 +6,7 @@ import com.xzgedu.supercv.SupercvBackendApplication;
 import com.xzgedu.supercv.advice.ResponseData;
 import com.xzgedu.supercv.common.exception.ErrorCode;
 import com.xzgedu.supercv.resume.domain.ResumeTemplate;
+import com.xzgedu.supercv.resume.service.ResumeTemplateService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -38,7 +40,7 @@ public class ResumeTemplateIntegrationTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private ResumeTemplateService resumeTemplateService;
 
     @BeforeEach
     void setUp() {
@@ -46,7 +48,7 @@ public class ResumeTemplateIntegrationTest {
     }
 
     @Test
-    void testListTemplatesMock() throws Exception {
+    void listTemplatesMock_Success() throws Exception {
         MvcResult result = mockMvc.perform(get("/v1/resume/template/list/mock")
                         .header("Origin", "https://www.supercv.cn")
                         .param("page_no", "1")
@@ -57,17 +59,51 @@ public class ResumeTemplateIntegrationTest {
 
         String content = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
         ResponseData<List<ResumeTemplate>> responseData = new ObjectMapper().readValue(
-                content, new TypeReference<ResponseData<List<ResumeTemplate>>>() {});
+                content, new TypeReference<ResponseData<List<ResumeTemplate>>>() {
+                });
         assertEquals(ErrorCode.SUCCESS.getCode(), responseData.getCode());
         assertNotNull(responseData.getData());
-        List<ResumeTemplate> templates = (List<ResumeTemplate>) responseData.getData();
+        List<ResumeTemplate> templates = responseData.getData();
         assertThat(templates).isNotNull();
-        assertThat(templates).hasSize(10); // 根据 page_size 参数，应该返回 10 条数据
+        assertThat(templates).hasSize(10);
         for (int i = 0; i < 10; i++) {
             ResumeTemplate template = templates.get(i);
             assertThat(template.getId()).isEqualTo(1625L + i);
             assertThat(template.getName()).isEqualTo("简历模板-" + i);
             assertThat(template.getCssName()).isEqualTo("css_" + i);
         }
+    }
+
+    @Test
+    void listTemplates_Success() throws Exception {
+        ResumeTemplate template1 = new ResumeTemplate();
+        template1.setName("模板1");
+        template1.setCssName("css_1");
+        resumeTemplateService.addTemplate(template1);
+
+        ResumeTemplate template2 = new ResumeTemplate();
+        template2.setName("模板2");
+        template2.setCssName("css_2");
+        resumeTemplateService.addTemplate(template2);
+
+        MvcResult result = mockMvc.perform(get("/v1/resume/template/list")
+                        .header("Origin", "https://www.supercv.cn")
+                        .param("page_no", "1")
+                        .param("page_size", "10")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
+        ResponseData<Map<String, Object>> responseData = new ObjectMapper().readValue(
+                content, new TypeReference<ResponseData<Map<String, Object>>>() {
+                });
+        assertEquals(ErrorCode.SUCCESS.getCode(), responseData.getCode());
+        assertNotNull(responseData.getData());
+        int count = (int) responseData.getData().get("count");
+        assertEquals(2, count);
+        List<ResumeTemplate> templates = (List<ResumeTemplate>) responseData.getData().get("templates");
+        assertThat(templates).isNotNull();
+        assertThat(templates).hasSize(2);
     }
 }

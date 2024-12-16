@@ -1,6 +1,7 @@
 package com.xzgedu.supercv.resume.mapper;
 
 import com.xzgedu.supercv.resume.domain.ResumeModuleItem;
+import com.xzgedu.supercv.resume.mapper.sql.ResumeModuleItemProvider;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -24,6 +25,10 @@ public interface ResumeModuleItemMapper {
     })
     @Select("SELECT * FROM resume_module_item WHERE module_id = #{moduleId}")
     List<ResumeModuleItem> selectResumeModuleItemsByModuleId(@Param("moduleId") long moduleId);
+
+    @ResultMap(value = "ResumeModuleItem")
+    @SelectProvider(type = ResumeModuleItemProvider.class, method = "selectResumeModuleItemsByModuleIds")
+    List<ResumeModuleItem> selectResumeModuleItemsByModuleIds(@Param("moduleIds") List<Long> moduleIds);
 
     @Insert("INSERT INTO resume_module_item (resume_id, module_id, title_major, title_minor, title_date, " +
             "title_sort_type, is_title_major_enabled, is_title_minor_enabled, is_title_date_enabled, content, sort_value) " +

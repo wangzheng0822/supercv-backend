@@ -1,4 +1,4 @@
-package com.xzgedu.supercv.admin.controller;
+package com.xzgedu.supercv.admin.controller.article;
 
 import com.xzgedu.supercv.article.domain.Article;
 import com.xzgedu.supercv.article.service.ArticleService;

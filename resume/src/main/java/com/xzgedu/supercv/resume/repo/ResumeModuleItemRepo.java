@@ -13,11 +13,15 @@ public class ResumeModuleItemRepo {
     @Autowired
     private ResumeModuleItemMapper resumeModuleItemMapper;
 
-    public List<ResumeModuleItem> selectResumeModuleItemsByModuleId(long moduleId) {
+    public List<ResumeModuleItem> getResumeModuleItemsByModuleId(long moduleId) {
         return resumeModuleItemMapper.selectResumeModuleItemsByModuleId(moduleId);
     }
 
-    public boolean insertResumeModuleItem(ResumeModuleItem moduleItem) {
+    public List<ResumeModuleItem> getResumeModuleItemsByModuleIds(List<Long> moduleIds) {
+        return resumeModuleItemMapper.selectResumeModuleItemsByModuleIds(moduleIds);
+    }
+
+    public boolean addResumeModuleItem(ResumeModuleItem moduleItem) {
         return resumeModuleItemMapper.insertResumeModuleItem(moduleItem) == 1;
     }
 

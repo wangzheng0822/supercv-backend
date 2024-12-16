@@ -14,11 +14,15 @@ public class ResumeModuleItemService {
     private ResumeModuleItemRepo resumeModuleItemRepo;
 
     public List<ResumeModuleItem> getResumeModuleItemsByModuleId(long moduleId) {
-        return resumeModuleItemRepo.selectResumeModuleItemsByModuleId(moduleId);
+        return resumeModuleItemRepo.getResumeModuleItemsByModuleId(moduleId);
+    }
+
+    public List<ResumeModuleItem> getResumeModuleItemsByModuleIds(List<Long> moduleIds) {
+        return resumeModuleItemRepo.getResumeModuleItemsByModuleIds(moduleIds);
     }
 
     public boolean addResumeModuleItem(ResumeModuleItem subModule) {
-        return resumeModuleItemRepo.insertResumeModuleItem(subModule);
+        return resumeModuleItemRepo.addResumeModuleItem(subModule);
     }
 
     public boolean updateResumeModuleItem(ResumeModuleItem subModule) {

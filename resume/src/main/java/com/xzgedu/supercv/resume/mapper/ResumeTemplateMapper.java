@@ -8,7 +8,6 @@ import java.util.List;
 @Mapper
 public interface ResumeTemplateMapper {
 
-
     // 增加模板
     @Options(useGeneratedKeys = true, keyProperty = "id")
     @Insert("INSERT INTO resume_template (name, css_name) VALUES (#{name}, #{cssName})")
@@ -30,12 +29,11 @@ public interface ResumeTemplateMapper {
             @Result(property = "cssName", column = "css_name"),
             @Result(property = "demoResumeId", column = "demo_resume_id"),
             @Result(property = "demoResumeThumbnailUrl", column = "demo_resume_thumbnail_url"),
-            @Result(property = "deleted", column = "is_deleted"),
     })
     @Select("SELECT rt.*, r.thumbnail_url as demo_resume_thumbnail_url " +
             "FROM resume_template rt " +
             "LEFT JOIN resume r ON rt.demo_resume_id = r.id " +
-            "WHERE id = #{id}")
+            "WHERE id = #{id} and is_deleted=false")
     ResumeTemplate selectTemplateById(Long id);
 
     // 分页查询模板
@@ -48,5 +46,6 @@ public interface ResumeTemplateMapper {
     List<ResumeTemplate> selectTemplatesPagination(@Param("limitOffset") int limitOffset,
                                                    @Param("limitSize") int limitSize);
 
-
+    @Select("select count(*) from resume_template where is_deleted=false")
+    int countTemplates();
 }

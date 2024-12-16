@@ -38,7 +38,7 @@ public class ResumeOwnershipInterceptor implements HandlerInterceptor {
         //检查归属权
         Long resumeId = InterceptorUtils.parseLong(request.getParameter("resume_id"));
         if (resumeId != null) {
-            Resume resume = resumeService.selectResumeById(resumeId);
+            Resume resume = resumeService.getResumeById(resumeId);
             if (resume != null && resume.getUid().equals(selfUid)) {
                 return true;
             }

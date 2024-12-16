@@ -1,14 +1,12 @@
 package com.xzgedu.supercv.resume.service;
 
 import com.xzgedu.supercv.common.exception.ResumeTemplateNotFoundException;
-import com.xzgedu.supercv.resume.domain.Resume;
-import com.xzgedu.supercv.resume.domain.ResumeTemplate;
-import com.xzgedu.supercv.resume.repo.ResumeRepo;
-import com.xzgedu.supercv.resume.repo.ResumeTemplateRepo;
+import com.xzgedu.supercv.resume.domain.*;
+import com.xzgedu.supercv.resume.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ResumeService {
@@ -17,9 +15,21 @@ public class ResumeService {
     private ResumeRepo resumeRepo;
 
     @Autowired
+    private ResumeBaseInfoRepo resumeBaseInfoRepo;
+
+    @Autowired
+    private ResumeBaseInfoItemRepo resumeBaseInfoItemRepo;
+
+    @Autowired
+    private ResumeModuleRepo resumeModuleRepo;
+
+    @Autowired
+    private ResumeModuleItemRepo resumeModuleItemRepo;
+
+    @Autowired
     private ResumeTemplateRepo resumeTemplateRepo;
 
-    public Resume selectResumeById(long id) {
+    public Resume getResumeById(long id) {
         return resumeRepo.getResumeById(id);
     }
 
@@ -27,8 +37,16 @@ public class ResumeService {
         return resumeRepo.getResumesPagination(limitOffset, limitSize);
     }
 
-    public List<Resume> getResumesByUid(long uid) {
-        return resumeRepo.getResumesByUid(uid);
+    public int countResumes() {
+        return resumeRepo.countResumes();
+    }
+
+    public List<Resume> getResumesByUid(long uid, int limitOffset, int limitSize) {
+        return resumeRepo.getResumesByUid(uid, limitOffset, limitSize);
+    }
+
+    public int countResumesByUid(long uid) {
+        return resumeRepo.countResumesByUid(uid);
     }
 
     public boolean addResume(Resume resume) {
@@ -86,7 +104,44 @@ public class ResumeService {
      * 查询完整的简历
      */
     public Resume getResumeDetail(long uid, long id) {
-        //TODO: 包含模块、子模块等等内容
-        return null;
+        Resume resume = resumeRepo.getResumeById(id);
+
+        // fill base info
+        ResumeBaseInfo baseInfo = resumeBaseInfoRepo.getResumeBaseInfoByResumeId(resume.getId());
+        List<ResumeBaseInfoItem> baseInfoItems = resumeBaseInfoItemRepo.getResumeBaseInfoItems(baseInfo.getId());
+        baseInfo.getItems().addAll(baseInfoItems);
+        resume.setBaseInfo(baseInfo);
+
+        // fill modules
+        List<ResumeModule> modules = resumeModuleRepo.getResumeModulesByResumeId(resume.getId());
+        List<Long> moduleIds = new ArrayList<>();
+        for (ResumeModule module : modules) {
+            moduleIds.add(module.getId());
+        }
+        List<ResumeModuleItem> moduleItems = resumeModuleItemRepo.getResumeModuleItemsByModuleIds(moduleIds);
+        Map<Long, List<ResumeModuleItem>> moduleItemMap = new HashMap<>();
+        for (ResumeModuleItem item : moduleItems) {
+            List<ResumeModuleItem> items = moduleItemMap.get(item.getModuleId());
+            if (items == null) {
+                items = new ArrayList<>();
+                moduleItemMap.put(item.getModuleId(), items);
+            }
+            items.add(item);
+        }
+        for (ResumeModule module : modules) {
+            List<ResumeModuleItem> items = moduleItemMap.get(module.getId());
+            if (items != null && !items.isEmpty()) {
+                items.sort(new Comparator<ResumeModuleItem>() {
+                    @Override
+                    public int compare(ResumeModuleItem o1, ResumeModuleItem o2) {
+                        return o1.getSortValue() - o2.getSortValue();
+                    }
+                });
+            }
+            module.getModuleItems().addAll(items);
+        }
+        resume.getModules().addAll(modules);
+
+        return resume;
     }
 }

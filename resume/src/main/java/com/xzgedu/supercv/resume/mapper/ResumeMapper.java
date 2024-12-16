@@ -24,20 +24,28 @@ public interface ResumeMapper {
             @Result(property = "fontFamily", column = "font_family"),
             @Result(property = "lineHeight", column = "line_height"),
             @Result(property = "templateDemo", column = "is_template_demo"),
-            @Result(property = "deleted", column = "is_deleted"),
     })
     @Select("select resume.*, resume_template.name, resume_template.css_name from resume left join resume_template " +
-            "on resume.template_id=resume_template.id where resume.id=#{id}")
+            "on resume.template_id=resume_template.id where resume.id=#{id} and resume.is_deleted=false")
     Resume selectResumeById(@Param("id") long id);
 
     //分页获取Resume
     @Select("select * from resume where is_deleted=false limit #{limitOffset}, #{limitSize}")
     List<Resume> selectResumesPagination(@Param("limitOffset") int limitOffset, @Param("limitSize") int limitSize);
 
+    @Select("select count(*) from resume where is_deleted=false")
+    int countResumes();
+
     @ResultMap("Resume")
     @Select("select resume.*, resume_template.name, resume_template.css_name from resume left join resume_template " + "" +
-            "on resume.template_id=resume_template.id where uid=#{uid} and resume.is_deleted=false")
-    List<Resume> selectResumesByUid(@Param("uid") long uid);
+            "on resume.template_id=resume_template.id where uid=#{uid} and resume.is_deleted=false " +
+            "order by resume.update_time desc limit #{limitOffset}, #{limitSize}")
+    List<Resume> selectResumesByUid(@Param("uid") long uid,
+                                    @Param("limitOffset") int limitOffset,
+                                    @Param("limitSize") int limitSize);
+
+    @Select("select count(*) from resume where is_deleted=false and uid=#{uid}")
+    int countResumesByUid(@Param("uid") long uid);
 
     @Options(useGeneratedKeys = true, keyProperty = "id")
     @Insert("INSERT INTO resume (uid, name, template_id, original_resume_url, thumbnail_url, " +
@@ -49,7 +57,7 @@ public interface ResumeMapper {
     )
     int insertResume(Resume resume);
 
-    @Update("update resume set is_delete=true where id=#{id}")
+    @Update("update resume set is_deleted=true where id=#{id}")
     int deleteResume(@Param("id") long id);
 
     @Update("UPDATE resume " +
@@ -65,7 +73,7 @@ public interface ResumeMapper {
             "    font_size = #{fontSize}, " +
             "    font_family = #{fontFamily}, " +
             "    line_height = #{lineHeight}, " +
-            "    is_template_demo = #{templateDemo}, " +
+            "    is_template_demo = #{templateDemo} " +
             "WHERE id = #{id}")
     int updateResume(Resume resume);
 }

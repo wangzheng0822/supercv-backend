@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Tag(name = "简历模板")
 @RestController
@@ -21,14 +23,18 @@ public class ResumeTemplateController {
     @Autowired
     private ResumeTemplateService resumeTemplateService;
 
-    //分页查询模板
     @Operation(summary = "分页查询模板")
     @GetMapping("/list")
-    public List<ResumeTemplate> listTemplates(@RequestParam("page_no") int pageNo,
-                                              @RequestParam("page_size") int pageSize) {
+    public Map<String, Object> listTemplates(@RequestParam("page_no") int pageNo,
+                                             @RequestParam("page_size") int pageSize) {
         int limitOffset = (pageNo - 1) * pageSize;
         int limitSize = pageSize;
-        return resumeTemplateService.getTemplatesPagination(limitOffset, limitSize);
+        int count = resumeTemplateService.countTemplates();
+        List<ResumeTemplate> resumeTemplates = resumeTemplateService.getTemplatesPagination(limitOffset, limitSize);
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("count", count);
+        resp.put("templates", resumeTemplates);
+        return resp;
     }
 
     //TODO: 稍后删除

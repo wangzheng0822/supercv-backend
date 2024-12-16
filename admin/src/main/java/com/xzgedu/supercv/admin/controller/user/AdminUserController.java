@@ -1,4 +1,4 @@
-package com.xzgedu.supercv.admin.controller;
+package com.xzgedu.supercv.admin.controller.user;
 
 import com.xzgedu.supercv.user.domain.User;
 import com.xzgedu.supercv.user.service.UserService;

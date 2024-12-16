@@ -27,6 +27,10 @@ public class ResumeTemplateService {
         return resumeTemplateRepo.getTemplatesPagination(limitOffset, limitSize);
     }
 
+    public int countTemplates() {
+        return resumeTemplateRepo.countTemplates();
+    }
+
     public ResumeTemplate getTemplateById(long id) {
         return resumeTemplateRepo.getTemplateById(id);
     }

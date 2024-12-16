@@ -8,8 +8,7 @@ import java.math.BigDecimal;
 @Component
 public class MockPayment implements Payment{
 
-    //TODO:填写二维码地址
-    private static final String MOCK_PAYMENT_QR_URL = "";
+    private static final String MOCK_PAYMENT_QR_URL = "https://static.supercv.cn/image/default_wxpay_qr.png";
 
     @Override
     public String createPaymentQrUrl(PaymentChannel payChannel, String orderNo, BigDecimal amount, String productName, String attach) {

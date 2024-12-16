@@ -1,4 +1,4 @@
-package com.xzgedu.supercv.admin.controller;
+package com.xzgedu.supercv.admin.controller.order;
 
 import com.xzgedu.supercv.common.exception.GenericBizException;
 import com.xzgedu.supercv.common.exception.PaymentException;

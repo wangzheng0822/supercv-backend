@@ -2,6 +2,7 @@ package com.xzgedu.supercv.resume.domain;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -14,5 +15,5 @@ public class ResumeBaseInfo {
     private Integer itemLayout; // 条目布局，默认居中，取值左对齐，右对齐，居中对齐
     private Boolean enabled; // 是否启用
 
-    private List<ResumeBaseInfoItem> items; //各个条目
+    private List<ResumeBaseInfoItem> items = new ArrayList<>(); //各个条目
 }

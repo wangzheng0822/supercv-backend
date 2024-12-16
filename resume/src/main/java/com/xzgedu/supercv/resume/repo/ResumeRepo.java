@@ -21,8 +21,16 @@ public class ResumeRepo {
         return resumeMapper.selectResumesPagination(limitOffset, limitSize);
     }
 
-    public List<Resume> getResumesByUid(long uid) {
-        return resumeMapper.selectResumesByUid(uid);
+    public int countResumes() {
+        return resumeMapper.countResumes();
+    }
+
+    public List<Resume> getResumesByUid(long uid, int limitOffset, int limitSize) {
+        return resumeMapper.selectResumesByUid(uid, limitOffset, limitSize);
+    }
+
+    public int countResumesByUid(long uid) {
+        return resumeMapper.countResumesByUid(uid);
     }
 
     public boolean addResume(Resume resume) {

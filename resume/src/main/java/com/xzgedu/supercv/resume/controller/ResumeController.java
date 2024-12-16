@@ -8,7 +8,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Tag(name = "简历")
 @RequestMapping("/v1/resume/")
@@ -20,8 +22,17 @@ public class ResumeController {
 
     @Operation(summary = "获取用户创建的所有简历（非detail）")
     @GetMapping("/list/mine")
-    public List<Resume> getResumesByUid(@RequestHeader("uid") long uid) {
-        return resumeService.getResumesByUid(uid);
+    public Map<String, Object> getResumesByUid(@RequestHeader("uid") long uid,
+                                               @RequestParam("page_no") int pageNo,
+                                               @RequestParam("page_size") int pageSize) {
+        int limitOffset = (pageNo - 1) * pageSize;
+        int limitSize = pageSize;
+        int count = resumeService.countResumesByUid(uid);
+        List<Resume> resumes = resumeService.getResumesByUid(uid, limitOffset, limitSize);
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("count", count);
+        resp.put("resumes", resumes);
+        return resp;
     }
 
     @Operation(summary = "获取简历详情")
@@ -51,8 +62,7 @@ public class ResumeController {
                                 @RequestParam("font_size") int fontSize,
                                 @RequestParam("font_family") String fontFamily,
                                 @RequestParam("line_height") int lineHeight) {
-        Resume resume = new Resume();
-        resume.setId(resumeId);
+        Resume resume = resumeService.getResumeById(resumeId);
         resume.setName(name);
         resume.setTemplateId(templateId);
         resume.setPageMarginHorizontal(pageMarginHorizontal);
