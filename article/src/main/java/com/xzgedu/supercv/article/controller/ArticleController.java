@@ -2,18 +2,14 @@ package com.xzgedu.supercv.article.controller;
 
 import com.xzgedu.supercv.article.domain.Article;
 import com.xzgedu.supercv.article.service.ArticleService;
-import com.xzgedu.supercv.common.enums.ArticleTypeEnum;
-import com.xzgedu.supercv.common.exception.ArticleCateTypeErr;
-import com.xzgedu.supercv.common.exception.ArticleContentErr;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.commons.lang3.StringUtils;
-import org.mockito.internal.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/article/")
@@ -25,57 +21,22 @@ public class ArticleController {
 
     @Operation(summary = "获取文章分页列表")
     @GetMapping("/list")
-    public List<Article> list(@RequestHeader(value = "cateType") String cateType,
-                              @RequestParam("page_no") Integer pageNo,
-                              @RequestParam("page_size") Integer pageSize) throws ArticleCateTypeErr {
-        if (pageNo == null || pageNo <= 0) {
-            pageNo = 1;
-        }
-        if (pageSize == null) pageSize = 10;
+    public Map<String, Object> listArticles(@RequestParam("cate_type") int cateType,
+                                      @RequestParam("page_no") int pageNo,
+                                      @RequestParam("page_size") int pageSize) {
         int limitOffset = (pageNo - 1) * pageSize;
         int limitSize = pageSize;
-
-        if (!ArticleTypeEnum.isValid(cateType)) {
-            throw new ArticleCateTypeErr();
-        }
-
-        return articleService.listArticles(cateType, limitOffset, limitSize);
+        int count = articleService.countArticlesByCateType(cateType);
+        List<Article> articles = articleService.getArticlesByCateType(cateType, limitOffset, limitSize);
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("count", count);
+        resp.put("articles", articles);
+        return resp;
     }
 
     @Operation(summary = "获取文章详情")
     @GetMapping("/detail")
-    public Article getArticleById(@RequestParam("article_id") long articleId) {
-        return articleService.getArticleById(articleId);
+    public Article getArticleDetailById(@RequestParam("article_id") long articleId) {
+        return articleService.getArticleDetailById(articleId);
     }
-
-    @Operation(summary = "添加文章")
-    @PostMapping("/add")
-    public boolean addArticle(@RequestBody Article article) throws ArticleCateTypeErr, ArticleContentErr {
-        if (!ArticleTypeEnum.isValid(article.getCateType())) {
-            throw new ArticleCateTypeErr();
-        }
-        if (StringUtils.isEmpty(article.getTitle()) || StringUtils.isEmpty(article.getContent())) {
-            throw new ArticleContentErr();
-        }
-        return articleService.addArticle(article);
-    }
-
-    @Operation(summary = "更新文章")
-    @PostMapping("/update")
-    public boolean updateArticle(@RequestBody Article article) throws ArticleCateTypeErr, ArticleContentErr {
-        if (!ArticleTypeEnum.isValid(article.getCateType())) {
-            throw new ArticleCateTypeErr();
-        }
-        if (StringUtils.isEmpty(article.getTitle()) || StringUtils.isEmpty(article.getContent())) {
-            throw new ArticleContentErr();
-        }
-        return articleService.updateArticle(article);
-    }
-
-    @Operation(summary = "删除文章")
-    @PostMapping("/delete")
-    public boolean deleteArticle(@RequestParam("article_id") long articleId) {
-        return articleService.deleteArticle(articleId);
-    }
-
 }

@@ -10,7 +10,6 @@ public interface ArticleContentMapper {
             @Result(property = "id", column = "id"),
             @Result(property = "content", column = "content")
     })
-
     @Select("SELECT * FROM article_content WHERE id = #{id}")
     ArticleContent selectArticleContentById(@Param("id") long id);
 

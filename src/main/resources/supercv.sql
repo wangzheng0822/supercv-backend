@@ -204,3 +204,28 @@ CREATE TABLE IF NOT EXISTS `payment_channel` (
     `enabled` boolean default false,
     primary key (`id`)
 );
+
+-- 文章
+create table if not exists `article` (
+    `id` bigint not null auto_increment comment '文章ID',
+    `uid` bigint not null comment '用户ID',
+    `cate_type` tinyint not null comment '文章分类类型：1_案例参考、2_专家服务',
+    `title` varchar(256) not null comment '文章标题',
+    `sub_title` varchar(256) comment '文章副标题',
+    `snippet` varchar(1024) comment '文章摘要',
+    `cover_img` varchar(1024) comment '文章封面图',
+    `content_id` bigint comment '文章正文ID',
+    `is_free` boolean default false comment '是否免费',
+    `create_time` datetime not null default current_timestamp,
+    `update_time` datetime not null default current_timestamp on update current_timestamp,
+    primary key (`id`)
+);
+
+-- 文章正文
+create table if not exists `article_content` (
+    `id` bigint not null auto_increment comment '文章正文ID',
+    `content` mediumtext not null comment '正文内容',
+    `create_time` datetime not null default current_timestamp,
+    `update_time` datetime not null default current_timestamp on update current_timestamp,
+    primary key (`id`)
+);

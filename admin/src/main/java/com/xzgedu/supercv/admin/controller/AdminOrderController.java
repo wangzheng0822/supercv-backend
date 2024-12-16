@@ -15,6 +15,8 @@ import com.xzgedu.supercv.product.domain.Product;
 import com.xzgedu.supercv.product.service.ProductService;
 import com.xzgedu.supercv.user.domain.User;
 import com.xzgedu.supercv.user.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Tag(name="订单管理")
 @RequestMapping("/admin/order")
 @RestController
 public class AdminOrderController {
@@ -41,6 +44,7 @@ public class AdminOrderController {
     @Autowired
     private UserService userService;
 
+    @Operation(summary = "分页查询订单")
     @GetMapping("/list")
     public Map<String, Object> getOrders(@RequestParam(value = "order_no", required = false) String orderNo,
                                          @RequestParam(value = "product_id", required = false) Long productId,
@@ -80,6 +84,7 @@ public class AdminOrderController {
         return res;
     }
 
+    @Operation(summary = "创建订单并授权")
     @Transactional(rollbackFor = Exception.class)
     @PostMapping("/create")
     public void createOrderAndGrant(@RequestParam(value = "product_id") Long productId,

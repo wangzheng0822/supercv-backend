@@ -30,6 +30,9 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Autowired
     VipBenefitInterceptor vipBenefitInterceptor;
 
+    @Autowired
+    ArticlePermissionInterceptor articlePermissionInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
@@ -40,6 +43,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/v1/product/**")
                 .excludePathPatterns("/v1/resume/template/list")
                 .excludePathPatterns("/v1/resume/template/list/mock")
+                .excludePathPatterns("/v1/article/list")
                 .order(1);
 
         //非管理员用户只能操作自己的数据，参数uid要跟header中uid相同
@@ -78,5 +82,10 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .addPathPatterns("/v1/resume/baseinfo/**")
                 .addPathPatterns("/v1/resume/module/**")
                 .order(6);
+
+        //文章详情权限检查
+        registry.addInterceptor(articlePermissionInterceptor)
+                .addPathPatterns("/v1/article/detail")
+                .order(7);
     }
 }

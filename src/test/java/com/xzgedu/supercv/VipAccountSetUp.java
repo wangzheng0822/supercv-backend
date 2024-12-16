@@ -1,23 +1,23 @@
 package com.xzgedu.supercv;
 
-import com.xzgedu.supercv.admin.service.AdminService;
 import com.xzgedu.supercv.user.domain.AuthToken;
-import com.xzgedu.supercv.user.domain.User;
+import com.xzgedu.supercv.vip.service.VipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AdminAccountSetup {
-
-    @Autowired
-    private AdminService adminService;
+public class VipAccountSetUp {
 
     @Autowired
     private UserAccountSetUp userAccountSetUp;
 
-    public AuthToken createAdminAccountAndLogin() {
+    @Autowired
+    private VipService vipService;
+
+    public AuthToken createVipAccountAndLogin()
+    {
         AuthToken authToken = userAccountSetUp.createRandomUserAndLogin();
-        adminService.grantAdmin(authToken.getUid());
+        vipService.renewVip(authToken.getUid(), 30, 5, 5);
         return authToken;
     }
 }

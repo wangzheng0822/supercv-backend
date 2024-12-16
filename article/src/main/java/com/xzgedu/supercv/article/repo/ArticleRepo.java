@@ -13,8 +13,12 @@ public class ArticleRepo {
     @Autowired
     private ArticleMapper articleMapper;
 
-    public List<Article> listArticles(String cateType, int limitOffset, int limitSize) {
-        return articleMapper.listArticles(cateType, limitOffset, limitSize);
+    public List<Article> getArticlesByCateType(int cateType, int limitOffset, int limitSize) {
+        return articleMapper.selectArticlesByCateType(cateType, limitOffset, limitSize);
+    }
+
+    public int countArticlesByCateType(int cateType) {
+        return articleMapper.countArticlesByCateType(cateType);
     }
 
     public Article getArticleById(long id) {

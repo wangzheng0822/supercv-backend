@@ -2,12 +2,11 @@ package com.xzgedu.supercv.admin;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xzgedu.supercv.AdminAccountSetup;
+import com.xzgedu.supercv.AdminAccountSetUp;
 import com.xzgedu.supercv.SupercvBackendApplication;
 import com.xzgedu.supercv.advice.ResponseData;
 import com.xzgedu.supercv.common.exception.ErrorCode;
 import com.xzgedu.supercv.product.domain.Product;
-import com.xzgedu.supercv.product.service.ProductService;
 import com.xzgedu.supercv.user.domain.AuthToken;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,7 +42,7 @@ public class AdminProductIntegrationTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private AdminAccountSetup adminAccountSetup;
+    private AdminAccountSetUp adminAccountSetup;
 
     private AuthToken authToken;
 

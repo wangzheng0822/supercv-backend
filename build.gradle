@@ -82,6 +82,11 @@ allprojects {
 
         //微信官方支付：https://github.com/wechatpay-apiv3/wechatpay-java?tab=readme-ov-file
         implementation 'com.github.wechatpay-apiv3:wechatpay-java:0.2.14'
+
+        // Markdown
+        implementation 'org.commonmark:commonmark:0.21.0'
+        implementation 'com.vladsch.flexmark:flexmark-all:0.64.0'
+        implementation 'org.jsoup:jsoup:1.15.4'
     }
 
     tasks.named('test') {

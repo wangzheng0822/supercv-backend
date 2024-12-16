@@ -34,6 +34,8 @@ public enum ErrorCode {
     // 输入数据验证
     GENERIC_DATA_INVALID(30401, "数据错误"),
     DATA_SHOULD_NOT_EMPTY(30402, "数据不应为空"),
+    ARTICLE_TITLE_INVALID(30403, "帖子标题不符合要求(长度限于1个字~60个字)"),
+    ARTICLE_CONTENT_INVALID(30404, "帖子内容不符合要求(长度限于1个字~30000字)"),
 
     /**
      * ******** 4xxxx不应该出现的业务异常 ***********
@@ -63,10 +65,6 @@ public enum ErrorCode {
     //产品
     PRODUCT_NOT_EXISTED(40701, "产品不存在"),
   
-    // 文章
-    ARTICLE_CATE_TYPE_ERR(40801, "文章类型错误"),
-    ARTICLE_CONTENT_ERR(40802, "文章标题或内容不能为空"),
-
     /**
      * ******** 5xxxx系统级别异常 ***************
      */

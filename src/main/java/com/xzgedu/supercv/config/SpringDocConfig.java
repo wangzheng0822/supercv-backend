@@ -74,6 +74,22 @@ public class SpringDocConfig {
     }
 
     @Bean
+    public GroupedOpenApi orderApi() {
+        return GroupedOpenApi.builder()
+                .group("Order")
+                .pathsToMatch("/v1/order/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi paymentApi() {
+        return GroupedOpenApi.builder()
+                .group("Payment")
+                .pathsToMatch("/v1/payment/**")
+                .build();
+    }
+
+    @Bean
     public GroupedOpenApi articleApi() {
         return GroupedOpenApi.builder()
                 .group("Article")

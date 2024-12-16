@@ -15,6 +15,7 @@ import com.xzgedu.supercv.order.service.PaymentChannelService;
 import com.xzgedu.supercv.product.domain.Product;
 import com.xzgedu.supercv.product.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Tag(name = "订单")
 @Slf4j
 @RequestMapping("/v1/order")
 @RestController
@@ -50,6 +52,7 @@ public class OrderController {
     @Value("${spring.profiles.active}")
     private String active;
 
+    @Operation(summary = "创建订单")
     @Transactional(rollbackFor = Exception.class)
     @PostMapping("/create")
     public Map<String, Object> createOrder(@RequestHeader("uid") long uid,
@@ -119,6 +122,7 @@ public class OrderController {
         return resp;
     }
 
+    @Operation(summary = "关闭订单")
     @Transactional(rollbackFor = Exception.class)
     @PostMapping("/close")
     public void closeOrder(@RequestHeader("uid") long uid,
@@ -139,7 +143,7 @@ public class OrderController {
         }
     }
 
-    @Operation(summary = "根据NO获取订单")
+    @Operation(summary = "根据订单号查询订单")
     @GetMapping("/detail")
     public Order getOrderByNo(@RequestHeader("uid") long uid,
                               @RequestParam("no") String no) {
@@ -152,7 +156,7 @@ public class OrderController {
         return order;
     }
 
-    @Operation(summary = "订单列表")
+    @Operation(summary = "分页查询我的订单列表")
     @GetMapping("/list")
     public Map<String, Object> getMyOrders(@RequestHeader("uid") long uid,
                                            @RequestParam("page_no") int pageNo,

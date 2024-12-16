@@ -16,24 +16,29 @@ public interface ArticleMapper {
             @Result(property = "subTitle", column = "sub_title"),
             @Result(property = "snippet", column = "snippet"),
             @Result(property = "coverImg", column = "cover_img"),
-            @Result(property = "contentId", column = "content_id")
+            @Result(property = "contentId", column = "content_id"),
+            @Result(property = "free", column = "is_free")
     })
+    @Select("select * from article where cate_type=#{cateType} " +
+            "order by create_time desc limit #{limitOffset}, #{limitSize}")
+    List<Article> selectArticlesByCateType(@Param("cateType") int cateType,
+                                           @Param("limitOffset") int limitOffset,
+                                           @Param("limitSize") int limitSize);
 
-    @Select("select * from article where cate_type=#{cateType} order by create_time desc limit #{limitOffset}, #{limitSize}")
-    List<Article> listArticles(@Param("cateType") String cateType,
-                               @Param("limitOffset") int limitOffset,
-                               @Param("limitSize") int limitSize);
+    @Select("SELECT count(*) from article where cate_type=#{cateType}")
+    int countArticlesByCateType(@Param("cateType") int cateType);
+
     @ResultMap("Article")
     @Select("SELECT * FROM article WHERE id = #{id}")
     Article selectArticleById(@Param("id") long id);
 
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    @Insert("INSERT INTO article (uid, cate_type, title, sub_title, snippet, cover_img, content_id) " +
-            "VALUES (#{uid}, #{cateType}, #{title}, #{subTitle}, #{snippet}, #{coverImg}, #{contentId})")
+    @Insert("INSERT INTO article (uid, cate_type, title, sub_title, snippet, cover_img, content_id, is_free) " +
+            "VALUES (#{uid}, #{cateType}, #{title}, #{subTitle}, #{snippet}, #{coverImg}, #{contentId}, #{free})")
     int insertArticle(Article article);
 
     @Update("UPDATE article SET title = #{title}, sub_title = #{subTitle}, snippet = #{snippet}, " +
-            "cover_img = #{coverImg}, content_id = #{contentId} WHERE id = #{id}")
+            "cover_img = #{coverImg}, content_id = #{contentId}, is_free=#{free} WHERE id = #{id}")
     int updateArticle(Article article);
 
     @Delete("DELETE FROM article WHERE id = #{id}")
