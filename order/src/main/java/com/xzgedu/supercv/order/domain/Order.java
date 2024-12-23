@@ -12,12 +12,11 @@ public class Order {
     private Long id;
     private String orderNo;
     private Long uid;
+    private Date orderTime;
 
     private Long productId;
     @ViewData
     private String productName;
-
-    private Date orderTime;
 
     private BigDecimal paymentAmount;
     private String paymentNo3rd;
