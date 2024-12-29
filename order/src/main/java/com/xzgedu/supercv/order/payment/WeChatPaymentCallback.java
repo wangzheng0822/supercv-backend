@@ -83,7 +83,11 @@ public class WeChatPaymentCallback {
             writeResp(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;
         }
-
+        if (order == null) {
+            log.error("Failed to find order: " + orderNo);
+            writeResp(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
+        }
         try {
             OffsetDateTime offsetDateTime = OffsetDateTime.parse(payTime);
             Date date = Date.from(offsetDateTime.toInstant());

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Tag(name = "产品")
 @RequestMapping("/v1/product")
 @RestController
@@ -23,5 +25,11 @@ public class ProductController {
     @GetMapping("/info")
     public Product getProductById(@RequestParam("product_id") int productId) {
         return productService.getProductById(productId);
+    }
+
+    @Operation(summary = "获取产品列表")
+    @GetMapping("/list")
+    public List<Product> listProducts() {
+        return productService.getAllProducts();
     }
 }

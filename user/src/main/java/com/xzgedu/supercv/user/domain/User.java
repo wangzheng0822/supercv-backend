@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xzgedu.supercv.common.anotation.ViewData;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * 用户信息类
  * @author wangzheng
@@ -23,4 +25,6 @@ public class User {
 
     @ViewData
     private boolean vip;
+
+    private Date createTime;
 }

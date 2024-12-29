@@ -3,6 +3,7 @@ HELP.md
 build/
 logs/
 **/src/main/**/application-test.yaml
+**/src/main/**/application-prod.yaml
 **/src/main/**/run-test.sh
 **/src/main/**/run.sh
 !gradle/wrapper/gradle-wrapper.jar

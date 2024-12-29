@@ -33,6 +33,10 @@ public class ArticleRepo {
         return articleMapper.updateArticle(article) == 1;
     }
 
+    public boolean updateCoverImg(long articleId, String coverImg) {
+        return articleMapper.updateCoverImg(articleId, coverImg) == 1;
+    }
+
     public boolean deleteArticle(long id) {
         return articleMapper.deleteArticle(id) == 1;
     }

@@ -16,6 +16,7 @@ public interface UserMapper {
             @Result(property = "openId", column = "open_id"),
             @Result(property = "nickName", column = "nick_name"),
             @Result(property = "headImgUrl", column = "head_img_url"),
+            @Result(property = "createTime", column = "create_time")
     })
     @Select("select * from cv_user where id=#{id}")
     User selectUserById(@Param("id") long id);

@@ -40,6 +40,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(authTokenInterceptor)
                 .addPathPatterns("/v1/**", "/admin/**")
                 .excludePathPatterns("/v1/login/**")
+                .excludePathPatterns("/v1/auth/token/**")
                 .excludePathPatterns("/v1/product/**")
                 .excludePathPatterns("/v1/resume/template/list")
                 .excludePathPatterns("/v1/resume/template/list/mock")

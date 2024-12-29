@@ -41,6 +41,9 @@ public interface ArticleMapper {
             "cover_img = #{coverImg}, content_id = #{contentId}, is_free=#{free} WHERE id = #{id}")
     int updateArticle(Article article);
 
+    @Update("UPDATE article SET cover_img = #{coverImg} WHERE id = #{id}")
+    int updateCoverImg(@Param("id") long id, @Param("coverImg") String coverImg);
+
     @Delete("DELETE FROM article WHERE id = #{id}")
     int deleteArticle(@Param("id") long id);
 }

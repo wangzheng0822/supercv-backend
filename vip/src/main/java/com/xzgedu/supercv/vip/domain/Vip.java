@@ -16,5 +16,6 @@ public class Vip {
     private Date expireTime;
     private Integer aiAnalysisLeftNum;
     private Integer aiOptimizationLeftNum;
+
     private Date updateTime;
 }

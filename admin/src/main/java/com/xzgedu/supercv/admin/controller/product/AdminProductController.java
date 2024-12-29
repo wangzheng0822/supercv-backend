@@ -19,12 +19,6 @@ public class AdminProductController {
     @Autowired
     private ProductService productService;
 
-    @Operation(summary = "获取产品列表")
-    @GetMapping("/list")
-    public List<Product> listProducts() {
-        return productService.getAllProducts();
-    }
-
     @Operation(summary = "添加产品")
     @PostMapping("/add")
     public Product addProduct(@RequestParam("name") String productName,
@@ -32,7 +26,8 @@ public class AdminProductController {
                               @RequestParam("discount_price") BigDecimal discountPrice,
                               @RequestParam("duration_days") int durationDays,
                               @RequestParam("ai_analysis_num") int aiAnalysisNum,
-                              @RequestParam("ai_optimization_num") int aiOptimizationNum)
+                              @RequestParam("ai_optimization_num") int aiOptimizationNum,
+                              @RequestParam("sort_value") int sortValue)
             throws GenericBizException {
         Product product = new Product();
         product.setName(productName);
@@ -41,6 +36,7 @@ public class AdminProductController {
         product.setDurationDays(durationDays);
         product.setAiAnalysisNum(aiAnalysisNum);
         product.setAiOptimizationNum(aiOptimizationNum);
+        product.setSortValue(sortValue);
         if (productService.addProduct(product)) return product;
         throw new GenericBizException("Failed to add product: " + product.toString());
     }
@@ -53,7 +49,8 @@ public class AdminProductController {
                               @RequestParam("discount_price") BigDecimal discountPrice,
                               @RequestParam("duration_days") int durationDays,
                               @RequestParam("ai_analysis_num") int aiAnalysisNum,
-                              @RequestParam("ai_optimization_num") int aiOptimizationNum)
+                              @RequestParam("ai_optimization_num") int aiOptimizationNum,
+                              @RequestParam("sort_value") int sortValue)
             throws GenericBizException {
         Product product = new Product();
         product.setId(productId);
@@ -63,6 +60,7 @@ public class AdminProductController {
         product.setDurationDays(durationDays);
         product.setAiAnalysisNum(aiAnalysisNum);
         product.setAiOptimizationNum(aiOptimizationNum);
+        product.setSortValue(sortValue);
         if (productService.updateProduct(product)) return;
         throw new GenericBizException("Failed to update product: " + product.toString());
     }

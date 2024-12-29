@@ -20,6 +20,7 @@ public class FilterConfig {
         FilterRegistrationBean bean = new FilterRegistrationBean();
         bean.setFilter(corsFilter);
         bean.addUrlPatterns("/v1/*");
+        bean.addUrlPatterns("/admin/*");
         bean.setOrder(1);
         return bean;
     }
@@ -29,6 +30,7 @@ public class FilterConfig {
         FilterRegistrationBean bean = new FilterRegistrationBean();
         bean.setFilter(new LogTraceIdFilter());
         bean.addUrlPatterns("/v1/*");
+        bean.addUrlPatterns("/admin/*");
         bean.setOrder(2);
         return bean;
     }
@@ -38,6 +40,7 @@ public class FilterConfig {
         FilterRegistrationBean bean = new FilterRegistrationBean();
         bean.setFilter(new AccessLogFilter());
         bean.addUrlPatterns("/v1/*");
+        bean.addUrlPatterns("/admin/*");
         bean.setOrder(3);
         return bean;
     }

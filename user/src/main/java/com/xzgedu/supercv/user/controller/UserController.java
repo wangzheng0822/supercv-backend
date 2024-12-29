@@ -45,9 +45,9 @@ public class UserController {
     }
 
     @Operation(summary = "更新昵称")
-    @PostMapping("/nick-name/update")
+    @PostMapping("/nickname/update")
     public void updateNickName(@RequestHeader("uid") long uid,
-                               @RequestParam("nick_name") String nickName) throws GenericBizException {
+                               @RequestParam("nickname") String nickName) throws GenericBizException {
         Assert.checkNickName(nickName);
         if (!userService.updateNickName(uid, nickName)) {
             throw new GenericBizException("Failed to update nick name: [uid="
@@ -56,9 +56,9 @@ public class UserController {
     }
 
     @Operation(summary = "更新头像")
-    @PostMapping("/head-img-url/update")
+    @PostMapping("/avatar/update")
     public void updateHeadImgUrl(@RequestHeader("uid") long uid,
-                                 @RequestParam("head_img_url") String headImgUrl) throws GenericBizException {
+                                 @RequestParam("avatar") String headImgUrl) throws GenericBizException {
         Assert.checkNotNull(headImgUrl);
         if (!userService.updateHeadImgUrl(uid, headImgUrl)) {
             throw new GenericBizException("Failed to update head img url: [uid="

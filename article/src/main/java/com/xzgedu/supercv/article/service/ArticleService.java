@@ -41,6 +41,10 @@ public class ArticleService {
         return article;
     }
 
+    public Article getArticleWithoutContentById(long id) {
+        return articleRepo.getArticleById(id);
+    }
+
     @Transactional(rollbackFor = Exception.class)
     public void addArticle(Article article) throws GenericBizException {
         ArticleContent articleContent = new ArticleContent();
@@ -76,6 +80,12 @@ public class ArticleService {
         articleContent.setContent(article.getContent());
         if (!articleContentRepo.updateArticleContent(articleContent)) {
             throw new GenericBizException("Failed to update article content: " + article.getContentId());
+        }
+    }
+
+    public void updateCoverImg(long articleId, String coverImg) throws GenericBizException {
+        if (!articleRepo.updateCoverImg(articleId, coverImg)) {
+            throw new GenericBizException("Failed to update article cover img: " + articleId);
         }
     }
 

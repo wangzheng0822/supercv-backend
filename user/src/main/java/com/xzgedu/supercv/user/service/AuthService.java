@@ -13,6 +13,7 @@ import java.util.Date;
 
 /**
  * 登陆认证Token，Token有效期为7天，在失效前12小时进行Token刷新续期，续期为1天
+ *
  * @author wangzheng
  */
 @Slf4j
@@ -56,6 +57,14 @@ public class AuthService {
 
     public void deleteToken(String token) {
         authTokenRepo.deleteToken(token);
+    }
+
+    public Date getExpiredTime(String token) {
+        AuthToken authToken = authTokenRepo.getAuthToken(token);
+        if (authToken != null) {
+             return authToken.getExpireTime();
+        }
+        return null;
     }
 
     private String generateToken() {

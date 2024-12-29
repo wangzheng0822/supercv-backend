@@ -1,6 +1,5 @@
 package com.xzgedu.supercv.product.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -14,4 +13,5 @@ public class Product {
     private int durationDays;
     private int aiAnalysisNum;
     private int aiOptimizationNum;
+    private int sortValue;
 }

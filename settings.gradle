@@ -7,3 +7,5 @@ include 'vip'
 include 'article'
 include 'product'
 include 'order'
+include 'oss'
+

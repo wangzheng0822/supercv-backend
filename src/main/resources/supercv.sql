@@ -51,6 +51,7 @@ create table if not exists `product` (
     `duration_days` int NOT NULL DEFAULT 0 COMMENT '会员时长(天)',
     `ai_analysis_num` int DEFAULT 0 COMMENT '智能评分调用次数',
     `ai_optimization_num` int DEFAULT 0 COMMENT '智能优化调用次数',
+    `sort_value` int NOT NULL COMMENT '排序值',
     `is_deleted` boolean DEFAULT FALSE COMMENT '是否删除 false为否 true为是',
     `create_time` datetime NOT NULL DEFAULT current_timestamp COMMENT '创建时间',
     `update_time` datetime NOT NULL DEFAULT current_timestamp on update current_timestamp COMMENT '更新时间',
@@ -228,4 +229,16 @@ create table if not exists `article_content` (
     `create_time` datetime not null default current_timestamp,
     `update_time` datetime not null default current_timestamp on update current_timestamp,
     primary key (`id`)
+);
+
+-- oss token
+CREATE TABLE IF NOT EXISTS `oss_sts`(
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+    `uid` bigint NOT NULL,
+    `access_key_id` varchar(128),
+    `access_key_secret` varchar(128),
+    `security_token` varchar(5120),
+    `expiration` bigint,
+    primary key (`id`),
+    unique `uid`(`uid`)
 );

@@ -1,14 +1,13 @@
 package com.xzgedu.supercv.admin.controller.user;
 
+import com.xzgedu.supercv.user.domain.AuthToken;
 import com.xzgedu.supercv.user.domain.User;
+import com.xzgedu.supercv.user.service.AuthService;
 import com.xzgedu.supercv.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +21,9 @@ public class AdminUserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AuthService authService;
 
     @Operation(summary = "分页查询用户")
     @GetMapping("/list")
@@ -61,5 +63,15 @@ public class AdminUserController {
         resp.put("count", count);
         resp.put("users", users);
         return resp;
+    }
+
+    @PostMapping("/login/debug")
+    public AuthToken fakeUserLogin(@RequestParam("uid") long uid) {
+        User user = userService.getUserById(uid);
+        if (user == null) return null;
+
+        Map<String, Object> resp = new HashMap<>();
+        AuthToken authToken = authService.createToken(user.getId());
+        return authToken;
     }
 }

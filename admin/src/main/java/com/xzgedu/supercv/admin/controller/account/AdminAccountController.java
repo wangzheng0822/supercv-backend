@@ -24,7 +24,7 @@ public class AdminAccountController {
 
     @Operation(summary = "检查是否是管理员")
     @GetMapping("/check")
-    public boolean checkIsAdmin(@RequestParam("uid") long uid) {
+    public boolean checkIsAdmin(@RequestHeader("uid") long uid) {
         return adminService.checkIfAdmin(uid);
     }
 

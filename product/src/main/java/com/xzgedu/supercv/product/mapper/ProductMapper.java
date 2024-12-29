@@ -15,17 +15,18 @@ public interface ProductMapper {
             @Result(property = "durationDays", column = "duration_days"),
             @Result(property = "aiAnalysisNum", column = "ai_analysis_num"),
             @Result(property = "aiOptimizationNum", column = "ai_optimization_num"),
+            @Result(property = "sortValue", column = "sort_value")
     })
     @Select("select * from product where id=#{id}")
     Product selectProductById(@Param("id") long id);
 
     @ResultMap("Product")
-    @Select("select * from product where is_deleted=false order by create_time desc")
+    @Select("select * from product where is_deleted=false order by sort_value asc")
     List<Product> getAllProducts();
 
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    @Insert("insert into product(name, original_price, discount_price, duration_days, ai_analysis_num, ai_optimization_num)" +
-            "values(#{name},#{originalPrice},#{discountPrice},#{durationDays},#{aiAnalysisNum},#{aiOptimizationNum})")
+    @Insert("insert into product(name, original_price, discount_price, duration_days, ai_analysis_num, ai_optimization_num, sort_value)" +
+            "values(#{name},#{originalPrice},#{discountPrice},#{durationDays},#{aiAnalysisNum},#{aiOptimizationNum}, #{sortValue})")
     int insertProduct(Product product);
 
     @Update("update product set name=#{name}" +
@@ -34,6 +35,7 @@ public interface ProductMapper {
             ",duration_days=#{durationDays}" +
             ",ai_analysis_num=#{aiAnalysisNum}" +
             ",ai_optimization_num=#{aiOptimizationNum} " +
+            ",sort_value=#{sortValue} " +
             "where id=#{id}")
     int updateProduct(Product product);
 

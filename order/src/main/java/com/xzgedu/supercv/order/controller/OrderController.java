@@ -105,12 +105,12 @@ public class OrderController {
         }
 
         String qrUrl = null;
-        if (this.active.equals("dev") || this.active.equals("ut")) {
+        if (this.active.equals("dev") || this.active.equals("ut") || this.active.equals("test")) {
             qrUrl = paymentFactory.getPayment(PaymentChannelType.MOCK_PAYMENT).createPaymentQrUrl(
                     null, null, null, null, null);
             //开发环境无法回调，没法更新订单状态，因此，需要在这里主动更新一下（不管有没有支付，都更新为支付）
             paidCallbackService.completePayment(order.getOrderNo(), null, new Date(), PaymentStatus.PAID);
-        } else if (this.active.equals("test") || this.active.equals("prod")) {
+        } else if (this.active.equals("prod")) {
             qrUrl = paymentFactory.getPayment(PaymentChannelType.of(order.getPaymentChannelType()))
                     .createPaymentQrUrl(paymentChannel, order.getOrderNo(), order.getPaymentAmount(),
                             order.getProductName(), null);

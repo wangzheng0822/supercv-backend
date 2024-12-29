@@ -20,4 +20,9 @@ public class VipController {
     public Vip getVipInfo(@RequestHeader("uid") long uid) {
         return vipService.getVipInfo(uid);
     }
+
+    @GetMapping("/check-if-valid")
+    public boolean checkIfValidVip(@RequestHeader("uid") long uid) {
+        return vipService.permitValidVip(uid);
+    }
 }

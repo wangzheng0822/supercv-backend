@@ -1,5 +1,6 @@
 package com.xzgedu.supercv.order.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xzgedu.supercv.common.anotation.ViewData;
 import com.xzgedu.supercv.order.enums.PaymentStatus;
 import lombok.Data;
@@ -9,6 +10,7 @@ import java.util.Date;
 
 @Data
 public class Order {
+    @JsonIgnore
     private Long id;
     private String orderNo;
     private Long uid;

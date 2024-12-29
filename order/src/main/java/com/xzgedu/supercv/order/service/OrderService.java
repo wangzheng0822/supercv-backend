@@ -9,6 +9,7 @@ import com.xzgedu.supercv.product.domain.Product;
 import com.xzgedu.supercv.product.service.ProductService;
 import com.xzgedu.supercv.vip.service.VipService;
 import lombok.extern.slf4j.Slf4j;
+import org.mockito.internal.matchers.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -64,7 +65,23 @@ public class OrderService {
     }
 
     public List<Order> getOrders(OrderFilter orderFilter, int limitOffset, int limitSize) {
-        return orderRepo.getOrders(orderFilter, limitOffset, limitSize);
+        return fillViewData(orderRepo.getOrders(orderFilter, limitOffset, limitSize));
+    }
+
+    private List<Order> fillViewData(List<Order> orders) {
+        if (orders == null || orders.isEmpty()) return orders;
+        List<Product> products = productService.getAllProducts();
+        Map<Long, Product> productMap = new HashMap<>();
+        for (Product product : products) {
+            productMap.put(product.getId(), product);
+        }
+        for (Order order : orders) {
+            Product product = productMap.get(order.getProductId());
+            if (product != null) {
+                order.setProductName(product.getName());
+            }
+        }
+        return orders;
     }
 
     public int countOrders(OrderFilter orderFilter) {
