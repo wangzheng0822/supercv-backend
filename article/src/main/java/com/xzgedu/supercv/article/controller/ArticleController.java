@@ -35,6 +35,12 @@ public class ArticleController {
         return resp;
     }
 
+    @Operation(summary = "获取文章信息，不包含内容")
+    @GetMapping("/detail-without-content")
+    public Article getArticleWithoutContentById(@RequestParam("article_id") long articleId) {
+        return articleService.getArticleWithoutContentById(articleId);
+    }
+
     @Operation(summary = "获取文章详情")
     @GetMapping("/detail")
     public Article getArticleDetailById(@RequestParam("article_id") long articleId) {

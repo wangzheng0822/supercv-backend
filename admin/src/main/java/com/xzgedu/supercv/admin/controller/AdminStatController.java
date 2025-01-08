@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -64,23 +65,23 @@ public class AdminStatController {
         //统计订单
         OrderFilter orderFilter = new OrderFilter();
         orderFilter.setPaymentStatus(PaymentStatus.PAID.getValue());
-        int totalAmount = orderService.sumOrderAmount(orderFilter);
+        BigDecimal totalAmount = orderService.sumOrderAmount(orderFilter);
 
         orderFilter.setStartTime(yesterday()[0]);
         orderFilter.setEndTime(yesterday()[1]);
-        int yesterdayAmount = orderService.sumOrderAmount(orderFilter);
+        BigDecimal yesterdayAmount = orderService.sumOrderAmount(orderFilter);
 
         orderFilter.setStartTime(today()[0]);
         orderFilter.setEndTime(today()[1]);
-        int todayAmount = orderService.sumOrderAmount(orderFilter);
+        BigDecimal todayAmount = orderService.sumOrderAmount(orderFilter);
 
         orderFilter.setStartTime(thisWeek()[0]);
         orderFilter.setEndTime(thisWeek()[1]);
-        int weekAmount = orderService.sumOrderAmount(orderFilter);
+        BigDecimal weekAmount = orderService.sumOrderAmount(orderFilter);
 
         orderFilter.setStartTime(thisMonth()[0]);
         orderFilter.setEndTime(thisMonth()[1]);
-        int monthAmount = orderService.sumOrderAmount(orderFilter);
+        BigDecimal monthAmount = orderService.sumOrderAmount(orderFilter);
 
         stats.put("totalIncome", totalAmount);
         stats.put("yesterdayIncome", yesterdayAmount);

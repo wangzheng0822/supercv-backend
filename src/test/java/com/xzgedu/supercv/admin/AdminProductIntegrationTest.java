@@ -60,6 +60,7 @@ public class AdminProductIntegrationTest {
         product.setDurationDays(30);
         product.setAiAnalysisNum(10);
         product.setAiOptimizationNum(5);
+        product.setSortValue(1);
 
         MvcResult result = mockMvc.perform(post("/admin/product/add")
                         .header("Authorization", "Bearer " + authToken.getToken())
@@ -70,6 +71,7 @@ public class AdminProductIntegrationTest {
                         .param("duration_days", String.valueOf(product.getDurationDays()))
                         .param("ai_analysis_num", String.valueOf(product.getAiAnalysisNum()))
                         .param("ai_optimization_num", String.valueOf(product.getAiOptimizationNum()))
+                        .param("sort_value", String.valueOf(product.getSortValue()))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -99,6 +101,7 @@ public class AdminProductIntegrationTest {
         product.setDurationDays(30);
         product.setAiAnalysisNum(10);
         product.setAiOptimizationNum(5);
+        product.setSortValue(1);
 
         MvcResult addResult = mockMvc.perform(post("/admin/product/add")
                         .header("Authorization", "Bearer " + authToken.getToken())
@@ -109,12 +112,13 @@ public class AdminProductIntegrationTest {
                         .param("duration_days", String.valueOf(product.getDurationDays()))
                         .param("ai_analysis_num", String.valueOf(product.getAiAnalysisNum()))
                         .param("ai_optimization_num", String.valueOf(product.getAiOptimizationNum()))
+                        .param("sort_value", String.valueOf(product.getSortValue()))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
 
         // Get the product list
-        MvcResult result = mockMvc.perform(get("/admin/product/list")
+        MvcResult result = mockMvc.perform(get("/v1/product/list")
                         .header("Authorization", "Bearer " + authToken.getToken())
                         .header("uid", authToken.getUid())
                         .accept(MediaType.APPLICATION_JSON))
@@ -139,6 +143,7 @@ public class AdminProductIntegrationTest {
         product.setDurationDays(60);
         product.setAiAnalysisNum(20);
         product.setAiOptimizationNum(10);
+        product.setSortValue(1);
 
         // Add a product first
         MvcResult addResult = mockMvc.perform(post("/admin/product/add")
@@ -150,6 +155,7 @@ public class AdminProductIntegrationTest {
                         .param("duration_days", String.valueOf(product.getDurationDays()))
                         .param("ai_analysis_num", String.valueOf(product.getAiAnalysisNum()))
                         .param("ai_optimization_num", String.valueOf(product.getAiOptimizationNum()))
+                        .param("sort_value", String.valueOf(product.getSortValue()))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -170,12 +176,13 @@ public class AdminProductIntegrationTest {
                         .param("duration_days", String.valueOf(90))
                         .param("ai_analysis_num", String.valueOf(30))
                         .param("ai_optimization_num", String.valueOf(15))
+                        .param("sort_value", String.valueOf(2))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
 
         // Verify the update
-        MvcResult getResult = mockMvc.perform(get("/admin/product/list")
+        MvcResult getResult = mockMvc.perform(get("/v1/product/list")
                         .header("Authorization", "Bearer " + authToken.getToken())
                         .header("uid", authToken.getUid())
                         .accept(MediaType.APPLICATION_JSON))
@@ -210,6 +217,7 @@ public class AdminProductIntegrationTest {
         product.setDurationDays(30);
         product.setAiAnalysisNum(10);
         product.setAiOptimizationNum(5);
+        product.setSortValue(1);
 
         MvcResult addResult = mockMvc.perform(post("/admin/product/add")
                         .header("Authorization", "Bearer " + authToken.getToken())
@@ -220,6 +228,7 @@ public class AdminProductIntegrationTest {
                         .param("duration_days", String.valueOf(product.getDurationDays()))
                         .param("ai_analysis_num", String.valueOf(product.getAiAnalysisNum()))
                         .param("ai_optimization_num", String.valueOf(product.getAiOptimizationNum()))
+                        .param("sort_value", String.valueOf(product.getSortValue()))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -239,7 +248,7 @@ public class AdminProductIntegrationTest {
                 .andReturn();
 
         // Verify the deletion
-        MvcResult getResult = mockMvc.perform(get("/admin/product/list")
+        MvcResult getResult = mockMvc.perform(get("/v1/product/list")
                         .header("Authorization", "Bearer " + authToken.getToken())
                         .header("uid", authToken.getUid())
                         .accept(MediaType.APPLICATION_JSON))

@@ -70,7 +70,7 @@ public class ResumeTemplateIntegrationTest {
             ResumeTemplate template = templates.get(i);
             assertThat(template.getId()).isEqualTo(1625L + i);
             assertThat(template.getName()).isEqualTo("简历模板-" + i);
-            assertThat(template.getCssName()).isEqualTo("css_" + i);
+            assertThat(template.getPageStyle()).isEqualTo("css_" + i);
         }
     }
 
@@ -78,12 +78,14 @@ public class ResumeTemplateIntegrationTest {
     void listTemplates_Success() throws Exception {
         ResumeTemplate template1 = new ResumeTemplate();
         template1.setName("模板1");
-        template1.setCssName("css_1");
+        template1.setPageFrame("frame_1");
+        template1.setPageStyle("css_1");
         resumeTemplateService.addTemplate(template1);
 
         ResumeTemplate template2 = new ResumeTemplate();
         template2.setName("模板2");
-        template2.setCssName("css_2");
+        template2.setPageFrame("frame_2");
+        template2.setPageStyle("css_2");
         resumeTemplateService.addTemplate(template2);
 
         MvcResult result = mockMvc.perform(get("/v1/resume/template/list")

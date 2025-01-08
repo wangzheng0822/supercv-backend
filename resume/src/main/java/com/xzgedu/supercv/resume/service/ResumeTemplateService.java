@@ -9,8 +9,10 @@ import java.util.List;
 
 @Service
 public class ResumeTemplateService {
+
     @Autowired
     private ResumeTemplateRepo resumeTemplateRepo;
+
     public boolean addTemplate(ResumeTemplate template) {
         return resumeTemplateRepo.addTemplate(template);
     }
@@ -21,6 +23,10 @@ public class ResumeTemplateService {
 
     public boolean updateTemplate(ResumeTemplate template) {
         return resumeTemplateRepo.updateTemplate(template);
+    }
+
+    public boolean updateDemoResumeId(long id, long demoResumeId) {
+        return resumeTemplateRepo.updateDemoResumeId(id, demoResumeId);
     }
 
     public List<ResumeTemplate> getTemplatesPagination(int limitOffset, int limitSize) {

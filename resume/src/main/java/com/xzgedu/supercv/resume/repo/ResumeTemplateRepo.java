@@ -25,6 +25,10 @@ public class ResumeTemplateRepo {
         return resumeTemplateMapper.updateTemplate(template) == 1;
     }
 
+    public boolean updateDemoResumeId(long id, long demoResumeId) {
+        return resumeTemplateMapper.updateDemoResumeId(id, demoResumeId) == 1;
+    }
+
     public List<ResumeTemplate> getTemplatesPagination(int limitOffset, int limitSize) {
         return resumeTemplateMapper.selectTemplatesPagination(limitOffset, limitSize);
     }

@@ -13,7 +13,8 @@ public interface ResumeMapper {
             @Result(property = "name", column = "name"),
             @Result(property = "templateId", column = "template_id"),
             @Result(property = "templateName", column = "template_name"),
-            @Result(property = "templateCssName", column = "template_css_name"),
+            @Result(property = "pageFrame", column = "page_frame"),
+            @Result(property = "pageStyle", column = "page_style"),
             @Result(property = "originalResumeUrl", column = "original_resume_url"),
             @Result(property = "thumbnailUrl", column = "thumbnail_url"),
             @Result(property = "pageMarginHorizontal", column = "page_margin_horizontal"),
@@ -25,19 +26,24 @@ public interface ResumeMapper {
             @Result(property = "lineHeight", column = "line_height"),
             @Result(property = "templateDemo", column = "is_template_demo"),
     })
-    @Select("select resume.*, resume_template.name, resume_template.css_name from resume left join resume_template " +
+    @Select("select resume.*, resume_template.name as template_name, resume_template.page_frame," +
+            "resume_template.page_style from resume left join resume_template " +
             "on resume.template_id=resume_template.id where resume.id=#{id} and resume.is_deleted=false")
     Resume selectResumeById(@Param("id") long id);
 
-    //分页获取Resume
-    @Select("select * from resume where is_deleted=false limit #{limitOffset}, #{limitSize}")
+    @ResultMap("Resume")
+    @Select("select resume.*, resume_template.name as template_name, resume_template.page_frame," +
+            "resume_template.page_style from resume left join resume_template " + "" +
+            "on resume.template_id=resume_template.id where resume.is_deleted=false " +
+            "order by resume.update_time desc limit #{limitOffset}, #{limitSize}")
     List<Resume> selectResumesPagination(@Param("limitOffset") int limitOffset, @Param("limitSize") int limitSize);
 
     @Select("select count(*) from resume where is_deleted=false")
     int countResumes();
 
     @ResultMap("Resume")
-    @Select("select resume.*, resume_template.name, resume_template.css_name from resume left join resume_template " + "" +
+    @Select("select resume.*, resume_template.name as template_name, resume_template.page_frame," +
+            "resume_template.page_style from resume left join resume_template " + "" +
             "on resume.template_id=resume_template.id where uid=#{uid} and resume.is_deleted=false " +
             "order by resume.update_time desc limit #{limitOffset}, #{limitSize}")
     List<Resume> selectResumesByUid(@Param("uid") long uid,

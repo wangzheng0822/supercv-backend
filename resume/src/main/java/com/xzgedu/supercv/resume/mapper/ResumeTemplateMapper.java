@@ -10,7 +10,7 @@ public interface ResumeTemplateMapper {
 
     // 增加模板
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    @Insert("INSERT INTO resume_template (name, css_name) VALUES (#{name}, #{cssName})")
+    @Insert("INSERT INTO resume_template (name, page_frame, page_style) VALUES (#{name}, #{pageFrame}, #{pageStyle})")
     int insertTemplate(ResumeTemplate template);
 
     // 删除模板
@@ -18,15 +18,20 @@ public interface ResumeTemplateMapper {
     int deleteTemplate(@Param("id") long id);
 
     // 更新模板
-    @Update("UPDATE resume_template SET name = #{name}, css_name = #{cssName}, " +
-            "demo_resume_id = #{demoResumeId} WHERE id = #{id}")
+    @Update("UPDATE resume_template SET name = #{name}, page_frame=#{pageFrame}, page_style = #{pageStyle} " +
+            "WHERE id = #{id}")
     int updateTemplate(ResumeTemplate template);
+
+    // 更新示例简历
+    @Update("UPDATE resume_template SET demo_resume_id = #{demoResumeId} WHERE id = #{id}")
+    int updateDemoResumeId(@Param("id") long id, @Param("demoResumeId") long demoResumeId);
 
     // 根据ID查询模板
     @Results(id = "ResumeTemplateResult", value = {
             @Result(property = "id", column = "id"),
             @Result(property = "name", column = "name"),
-            @Result(property = "cssName", column = "css_name"),
+            @Result(property = "pageFrame", column = "page_frame"),
+            @Result(property = "pageStyle", column = "page_style"),
             @Result(property = "demoResumeId", column = "demo_resume_id"),
             @Result(property = "demoResumeThumbnailUrl", column = "demo_resume_thumbnail_url"),
     })

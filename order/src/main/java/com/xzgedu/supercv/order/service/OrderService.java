@@ -13,6 +13,7 @@ import org.mockito.internal.matchers.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Slf4j
@@ -88,7 +89,7 @@ public class OrderService {
         return orderRepo.countOrders(orderFilter);
     }
 
-    public int sumOrderAmount(OrderFilter orderFilter) {
+    public BigDecimal sumOrderAmount(OrderFilter orderFilter) {
         return orderRepo.sumOrderAmount(orderFilter);
     }
 

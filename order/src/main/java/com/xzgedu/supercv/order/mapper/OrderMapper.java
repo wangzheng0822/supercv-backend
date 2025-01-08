@@ -4,6 +4,7 @@ import com.xzgedu.supercv.order.domain.Order;
 import com.xzgedu.supercv.order.domain.OrderFilter;
 import org.apache.ibatis.annotations.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -79,5 +80,5 @@ public interface OrderMapper {
     int countOrders(@Param("orderFilter") OrderFilter orderFilter);
 
     @SelectProvider(value = OrderSql.class, method = "sumOrderAmount")
-    int sumOrderAmount(@Param("orderFilter") OrderFilter orderFilter);
+    BigDecimal sumOrderAmount(@Param("orderFilter") OrderFilter orderFilter);
 }

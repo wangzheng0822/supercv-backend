@@ -23,5 +23,5 @@ public interface AuthTokenMapper {
     int deleteToken(@Param("token") String token);
 
     @Update("update auth_token set expire_time=#{expireTime} where token=#{token}")
-    int updateTokenExpireTime(@Param("token") String token, @Param("expiredTime") Date expireTime);
+    int updateTokenExpireTime(@Param("token") String token, @Param("expireTime") Date expireTime);
 }

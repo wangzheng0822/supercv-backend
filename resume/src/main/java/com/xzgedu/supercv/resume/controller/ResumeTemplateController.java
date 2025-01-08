@@ -49,7 +49,7 @@ public class ResumeTemplateController {
             ResumeTemplate template = new ResumeTemplate();
             template.setId(1625L + i);
             template.setName("简历模板-" + i);
-            template.setCssName("css_" + i);
+            template.setPageStyle("css_" + i);
             template.setDemoResumeThumbnailUrl("https://static.supercv.cn/image/defaut_resume_thumbnail.png");
             mockTemplates.add(template);
         }

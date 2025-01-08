@@ -75,13 +75,13 @@ create table if not exists `vip` (
 create table if not exists `resume_template` (
     `id` bigint NOT NULL AUTO_INCREMENT COMMENT '模板ID',
     `name` varchar(128) NOT NULL COMMENT '模板名称',
-    `css_name` varchar(64) NOT NULL COMMENT 'CSS名称',
+    `page_frame` varchar(64) NOT NULL DEFAULT 'default' COMMENT 'vue页面结构',
+    `page_style` varchar(64) NOT NULL COMMENT 'css样式',
     `demo_resume_id` bigint COMMENT '简历ID',
     `is_deleted` boolean DEFAULT FALSE COMMENT '是否已删除',
     `create_time` datetime NOT NULL DEFAULT current_timestamp,
     `update_time` datetime NOT NULL DEFAULT current_timestamp on update current_timestamp,
-    primary key (`id`),
-    unique (`css_name`)
+    primary key (`id`)
 );
 
 -- 简历
@@ -240,5 +240,5 @@ CREATE TABLE IF NOT EXISTS `oss_sts`(
     `security_token` varchar(5120),
     `expiration` bigint,
     primary key (`id`),
-    unique `uid`(`uid`)
+    unique (`uid`)
 );

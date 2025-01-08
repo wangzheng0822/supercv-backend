@@ -7,18 +7,19 @@ import java.util.List;
 
 @Data
 public class Resume {
-    private Long id; // 简历ID
-    private Long uid; // 简历归属用户ID
-    private String name; // 简历名称
-
-    private Long templateId; // 模板ID
-    @ViewData
-    private String templateName; //模板名称
-    @ViewData
-    private String templateCssName; //模板css文件名
-
+    private Long id;
+    private Long uid;
+    private String name;
     private String originalResumeUrl; // 简历文件url(pdf/word等)
     private String thumbnailUrl; // 简历缩略图url
+
+    private Long templateId;
+    @ViewData
+    private String templateName;
+    @ViewData
+    private String pageFrame; //模板vue页面结构
+    @ViewData
+    private String pageStyle; //模板css文件名
 
     private Integer pageMarginHorizontal; // 左右页边距
     private Integer pageMarginVertical; // 上下页边距
@@ -28,7 +29,7 @@ public class Resume {
     private String fontFamily; // 字体
     private Integer lineHeight; // 行高
 
-    private Boolean templateDemo; // 是否是模板示例简历
+    private boolean templateDemo; // 是否是模板示例简历
 
     @ViewData
     private ResumeBaseInfo baseInfo; //基本信息

@@ -19,6 +19,8 @@ wxOpen:
 aliyun:
   accessKeyId: no_need_to_set
   accessKeySecret: no_need_to_set
+  ossAccessKeyId: no_need_to_set
+  ossAccessKeySecret: no_need_to_set
 
 sms:
   sign_name: no_need_to_set

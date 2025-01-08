@@ -6,6 +6,7 @@ import com.xzgedu.supercv.order.mapper.OrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class OrderRepo {
         return orderMapper.countOrders(orderFilter);
     }
 
-    public int sumOrderAmount(OrderFilter orderFilter) {
+    public BigDecimal sumOrderAmount(OrderFilter orderFilter) {
         return orderMapper.sumOrderAmount(orderFilter);
     }
 

@@ -21,34 +21,49 @@ public class AdminResumeTemplateController {
 
     @Operation(summary = "创建简历模板")
     @PostMapping("/add")
-    public void addResumeTemplate(@RequestParam("name") String name,
-                                  @RequestParam("css_name") String cssName) throws GenericBizException {
+    public ResumeTemplate addResumeTemplate(@RequestParam("name") String name,
+                                  @RequestParam("page_frame") String pageFrame,
+                                  @RequestParam("page_style") String pageStyle) throws GenericBizException {
         ResumeTemplate template = new ResumeTemplate();
+        template.setName(name);
+        template.setPageFrame(pageFrame);
+        template.setPageStyle(pageStyle);
         if (!resumeTemplateService.addTemplate(template)) {
             throw new GenericBizException("Failed to add resume template: " + template);
         }
+        return template;
     }
 
     @Operation(summary = "更新简历模板")
     @PostMapping("/update")
-    public void updateResumeTemplate(@RequestParam("id") long id,
+    public void updateResumeTemplate(@RequestParam("template_id") long id,
                                      @RequestParam("name") String name,
-                                     @RequestParam("css_name") String cssName,
-                                     @RequestParam(value = "demo_resume_id", required = false) Long demoResumeId)
+                                     @RequestParam("page_frame") String pageFrame,
+                                     @RequestParam("page_style") String pageStyle)
             throws GenericBizException {
         ResumeTemplate template = new ResumeTemplate();
         template.setId(id);
         template.setName(name);
-        template.setCssName(cssName);
-        template.setDemoResumeId(demoResumeId);
+        template.setPageFrame(pageFrame);
+        template.setPageStyle(pageStyle);
         if (!resumeTemplateService.updateTemplate(template)) {
             throw new GenericBizException("Failed to update resume template: " + template);
         }
     }
 
+    @Operation(summary = "添加示例简历")
+    @PostMapping("/update/demo-resume")
+    public void updateResumeTemplateDemoResumeId(@RequestParam("template_id") long id,
+                                                 @RequestParam("demo_resume_id") long demoResumeId)
+            throws GenericBizException {
+        if (!resumeTemplateService.updateDemoResumeId(id, demoResumeId)) {
+            throw new GenericBizException("Failed to add demo resume for template: " + id + "; " + demoResumeId);
+        }
+    }
+
     @Operation(summary = "删除简历模板")
     @PostMapping("/delete")
-    public void deleteResumeTemplate(@RequestParam("id") long resumeTemplateId) throws GenericBizException {
+    public void deleteResumeTemplate(@RequestParam("template_id") long resumeTemplateId) throws GenericBizException {
         if (!resumeTemplateService.deleteTemplate(resumeTemplateId)) {
             throw new GenericBizException("Failed to delete resume template: " + resumeTemplateId);
         }

@@ -118,10 +118,10 @@ public class UserIntegrationTest {
         long uid = authToken.getUid();
         String nickName = "newName";
 
-        mockMvc.perform(post("/v1/user/nick-name/update")
+        mockMvc.perform(post("/v1/user/nickname/update")
                         .header("uid", String.valueOf(uid))
                         .header("Authorization", "Bearer " + authToken.getToken())
-                        .param("nick_name", nickName)
+                        .param("nickname", nickName)
                         .header("Origin", "https://www.supercv.cn")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -136,10 +136,10 @@ public class UserIntegrationTest {
         long uid = authToken.getUid();
         String headImgUrl = "https://example.com/image.jpg";
 
-        mockMvc.perform(post("/v1/user/head-img-url/update")
+        mockMvc.perform(post("/v1/user/avatar/update")
                         .header("uid", String.valueOf(uid))
                         .header("Authorization", "Bearer " + authToken.getToken())
-                        .param("head_img_url", headImgUrl)
+                        .param("avatar", headImgUrl)
                         .header("Origin", "https://www.supercv.cn")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());

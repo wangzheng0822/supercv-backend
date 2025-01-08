@@ -7,7 +7,10 @@ import lombok.Data;
 public class ResumeTemplate {
     private Long id; //模板ID
     private String name; //模板名称
-    private String cssName; //css文件名称
+
+    private String pageFrame; //vue页面结构
+    private String pageStyle; //css格式
+
     private Long demoResumeId; //示例简历ID
     @ViewData
     private String demoResumeThumbnailUrl;
