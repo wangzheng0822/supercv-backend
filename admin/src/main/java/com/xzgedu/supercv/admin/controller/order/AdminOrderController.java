@@ -98,6 +98,7 @@ public class AdminOrderController {
         if (user == null) throw new UserNotFoundException("User not found: " + telephone);
         Long uid = user.getId();
         order.setOrderNo(OrderNoGenerator.generateOrderNo(uid));
+        order.setOrderTime(new Date());
         order.setProductId(productId);
         Product product = productService.getProductById(productId);
         if (product != null) {
